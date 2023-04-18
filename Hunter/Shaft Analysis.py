@@ -160,19 +160,35 @@ def steady_stress(K_f, K_fs, s_m, s_t, d):
     # s_t is steady torque
     # d is diameter of shaft section
 
-# steady stress
     s_norm = (32 * K_f * s_m) / (math.pi * (d ** 3))
     s_shear = (16 * K_fs * s_t) / (math.pi * (d ** 3))
     return s_norm, s_shear
 
 def total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+
     a_norm, a_shear = alternating_stress(K_f, K_fs, a_m, a_t, d)
     s_norm, s_shear = steady_stress(K_f, K_fs, s_m, s_t, d)
     return a_norm, a_shear, s_norm, s_shear
 
-def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d):
+def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+    # ult is the ultimate tensile strength
+
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
-    s_e = endurance_limit()
+    s_e = endurance_limit(ult)
 
     goodman_a_m = 4 * ((K_f * a_m) ** 2)        # alternating moment goodman
     goodman_a_t = 3 * ((K_fs * a_t) ** 2)       # alternating torque goodman
