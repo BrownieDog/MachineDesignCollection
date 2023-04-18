@@ -127,14 +127,14 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     a = addendum(P_n)
 
     r_P = d_P / 2     # transverse pitch radius of pinion
-    r_bP = r_P * math.cos(pt_angle) # base-circle radii for pinion
+    r_bP = r_P * math.cos(math.radians(pt_angle)) # base-circle radii for pinion
 
     r_G = d_G / 2     # transverse pitch radius of gear
-    r_bG = r_G * math.cos(pt_angle) # base-circle radii for gear
+    r_bG = r_G * math.cos(math.radians(pt_angle)) # base-circle radii for gear
 
     Z_1 = (r_P + a) ** 2 - r_bP ** 2
     Z_2 = (r_G + a) ** 2 - r_bG ** 2
-    Z_3 = (r_P + r_G) * math.sin(pt_angle)
+    Z_3 = (r_P + r_G) * math.sin(math.radians(pt_angle))
 
     if Z_1 > Z_3:
         Z = math.sqrt(Z_3) + math.sqrt(Z_2) - Z_1
@@ -146,13 +146,13 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     p_n = N_G / d_G                 # normal circular pitch
     # round up to a standard
 
-    p_N = p_n * math.cos(pt_angle)
+    p_N = p_n * math.cos(math.radians(pt_angle))
     m_N = p_N / (0.95 * Z)          # load sharing ratio
 
     m_G = speed_ratio(N_G, N_P, d_G, d_P)
 
-    I_ext = (math.cos(pt_angle) * math.sin(pt_angle)) / (2 * m_N) * (m_G / (m_G + 1))    # external gear
-    I_int = (math.cos(pt_angle) * math.sin(pt_angle)) / (2 * m_N) * (m_G / (m_G - 1))    # internal gear
+    I_ext = (math.cos(math.radians(pt_angle)) * math.sin(math.radians(pt_angle))) / (2 * m_N) * (m_G / (m_G + 1))    # external gear
+    I_int = (math.cos(math.radians(pt_angle)) * math.sin(math.radians(pt_angle))) / (2 * m_N) * (m_G / (m_G - 1))    # internal gear
 
     return I_ext                    # external gear
 
@@ -347,7 +347,7 @@ def temperature_factor():
 def rim_thickness_factor():
     t_R = None          # look at fig
     h_t = None          # look at fig
-    m_B = t_R / h_t     # backup ratio
+    #m_B = t_R / h_t     # backup ratio
     m_B = 1.2           # assuming this
     if m_B < 1.2:
         K_B = 1.6 * math.log((2.242 / m_B), math.e)
@@ -592,3 +592,6 @@ def main():
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
             pitchline, transverseDiametralPitch, cyclesGear, F, axialPitch, pinionDiameter, transversePressureAngle, numberOfGearTeeth,
             numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
+    print(K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P)
+
+main()
