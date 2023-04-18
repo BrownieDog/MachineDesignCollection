@@ -82,7 +82,7 @@ def endurance_limit(ult):
 
     k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors()
     s_ei = specimen_endurance_limit(ult)
-    
+
     s_e = k_a * k_b * k_c * k_d * k_e * k_f * s_ei      # endurance limit
     return s_e
 
@@ -178,7 +178,7 @@ def total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d):
     s_norm, s_shear = steady_stress(K_f, K_fs, s_m, s_t, d)
     return a_norm, a_shear, s_norm, s_shear
 
-def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
+def goodman_fatigue_safety_factor(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
     # K_f is fatigue bending stress concentration factor
     # K_fs is fatigue shear stress concentration factor
     # a_m is alternating moment
@@ -202,8 +202,8 @@ def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
 
     goodman_coeff = 16 / (math.pi * (d ** 3))   # a coefficient used in the final calculation. It simply saves space
 
-    n_goodman = 1 / goodman_coeff * (goodman_a + goodman_s)
-    return n_goodman
+    S_F_goodman = 1 / goodman_coeff * (goodman_a + goodman_s)
+    return S_F_goodman
 
 def first_cycle_yield_vm(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):        # checking 1st cycle yield with Von Mises
     # K_f is fatigue bending stress concentration factor
@@ -239,8 +239,8 @@ def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
     steady = math.sqrt((s_norm ** 2) + (3 * (s_shear ** 2)))    # total steady stress
     total = alt + steady                                        # total stress
 
-    n_cons = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
-    return n_cons
+    S_F_conservative = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
+    return S_F_conservative
 
 def shear_diagram(f):
 
