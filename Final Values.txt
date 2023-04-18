@@ -1,7 +1,7 @@
 Required Gear ratio: 2.985074626865672
 Transverse pressure angle: 22.795877258858475
-gear teeth: 33
-pinion teeth: 11
+gear teeth: 39
+pinion teeth: 13
 input rpm: 6700
 output rpm: 20100
 actual gear ratio: 3
