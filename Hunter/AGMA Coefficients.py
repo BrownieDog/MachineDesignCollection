@@ -138,19 +138,19 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     r_G = d_G / 2     # transverse pitch radius of gear
     r_bG = r_G * math.cos(math.radians(pt_angle)) # base-circle radii for gear
 
-    Z_1 = (r_P + a) ** 2 - r_bP ** 2
-    Z_2 = (r_G + a) ** 2 - r_bG ** 2
+    Z_1 =  math.sqrt((r_P + a) ** 2 - r_bP ** 2)
+    Z_2 = math.sqrt((r_G + a) ** 2 - r_bG ** 2)
     Z_3 = (r_P + r_G) * math.sin(math.radians(pt_angle))
     print("Z1 " + str(Z_1))
     print("Z2 " + str(Z_2))
     print("Z3 " + str(Z_3))
 
     if Z_1 > Z_3:
-        Z = math.sqrt(Z_3) + math.sqrt(Z_2) - Z_1
+        Z = Z_3 + Z_2 - Z_1
     elif Z_2 > Z_3:
-        Z = math.sqrt(Z_1) + math.sqrt(Z_3) - Z_2
+        Z = Z_1 + Z_3 - Z_2
     else:
-        Z = math.sqrt(Z_1) + math.sqrt(Z_2) - Z_3
+        Z = Z_1 + Z_2 - Z_3
 
     p_n = N_G / d_G                 # normal circular pitch
     # round up to a standard
@@ -600,6 +600,6 @@ def main():
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
             pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
             numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-    print(K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P)
+    print(S_F_G, S_F_P, S_H_G, S_H_P)
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
