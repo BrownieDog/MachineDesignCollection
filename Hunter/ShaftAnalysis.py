@@ -2,12 +2,16 @@ import math
 
 # stress concentration factors for different geometries
 def shoulder_fillet_sharp(d):
+    # d is diameter of shaft section
+
     r = d * 0.02    # notch radius
     K_t = 2.7       # K_t for bending
     K_ts = 2.2      # K_ts for shear
     return K_t, K_ts
 
 def shoulder_fillet_round(d):
+    # d is diameter of shaft section
+
     r = d * 0.02    # notch radius
     K_t = 1.7       # K_t for bending
     K_ts = 1.5      # K_ts for shear
@@ -20,12 +24,16 @@ def retaining_ring_groove():
     return K_t, K_ts
 
 def end_mill_keyseat(d):
+    # d is diameter of shaft section
+
     r = d * 0.02    # notch radius
     K_t = 2.14      # K_t for bending
     K_ts = 3.0      # K_ts for shear
     return K_t, K_ts
 
 def specimen_endurance_limit(ult):      # rotary-beam test specimen endurance limit
+    # ult is ultimate tensile strength
+
     if ult <= 200:  # ksi
         s_ei = 0.5 * ult
     elif ult > 200:  # ksi
@@ -35,7 +43,9 @@ def specimen_endurance_limit(ult):      # rotary-beam test specimen endurance li
     return s_ei
 
 # find coefficients of endurance limit
-def surface_factor(a, b, ult):       # k_a - surface factor
+def surface_factor(ult):       # k_a - surface factor
+    # ult is ultimate tensile strength
+
     a = 2.00                # from Table 6-2 for machined surface
     b = -0.217              # from Table 6-2 for machined surface
 
@@ -43,6 +53,7 @@ def surface_factor(a, b, ult):       # k_a - surface factor
     return k_a
 
 def size_factor(d):         # k_b - size factor
+    # d is diameter of shaft section
 
     # for rotating round specimens in bending
     if 0.11 <= d <= 2:  # inch
@@ -54,13 +65,7 @@ def size_factor(d):         # k_b - size factor
     return k_b
 
 def loading_factor():       # k_c - load factor
-
-    if bending_moment == 0 and torque != 0:  # pure torsion
-        k_c = 0.59
-    elif bending_moment == 0 and axial_force != 0:  # pure axial
-        k_c = 0.85
-    else:
-        k_c = 1  # pure bending or combined loading with von mises
+    k_c = 1  # combined loading with von mises stress calculations
     return k_c
 
 def modifying_factors():
@@ -72,45 +77,53 @@ def modifying_factors():
     k_f = 1                     # miscellaneous factor
     return k_a, k_b, k_c, k_d, k_e, k_f
 
-def endurance_limit():
+def endurance_limit(ult):
+    # ult is ultimate tensile strength
+
     k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors()
-    s_ei = specimen_endurance_limit()
+    s_ei = specimen_endurance_limit(ult)
     s_e = k_a * k_b * k_c * k_d * k_e * k_f * s_ei      # endurance limit
     return s_e
 
 def neuber_constant(ult):
+    # ult is ultimate tensile strength
 
     if 50 <= ult <= 250:    # ksi
-        nc_bend_1 = (3.08 * 10 ** -3) * ult
-        nc_bend_2 = (1.51 * 10 ** -5) * (ult ** 2)
-        nc_bend_3 = (2.67 * 10 ** -8) * (ult ** 3)
-        nc_bend = 0.246 - nc_bend_1 + nc_bend_2 - nc_bend_3
-#        return nc_bend      # bending and axial
+        neuber_bend_1 = (3.08 * 10 ** -3) * ult
+        neuber_bend_2 = (1.51 * 10 ** -5) * (ult ** 2)
+        neuber_bend_3 = (2.67 * 10 ** -8) * (ult ** 3)
+        neuber_bend = 0.246 - neuber_bend_1 + neuber_bend_2 - neuber_bend_3
+
     else:
         print("Out of range :(")
 
     if 50 <= ult <= 220:    # ksi
-        nc_tor_1 = (2.51 * 10 ** -3) * ult
-        nc_tor_2 = (1.35 * 10 ** -5) * (ult ** 2)
-        nc_tor_3 = (2.67 * 10 ** -8) * (ult ** 3)
-        nc_tor = 0.190 - nc_tor_1 + nc_tor_2 - nc_tor_3
-#        return nc_tor       # torsional
+        neuber_tor_1 = (2.51 * 10 ** -3) * ult
+        neuber_tor_2 = (1.35 * 10 ** -5) * (ult ** 2)
+        neuber_tor_3 = (2.67 * 10 ** -8) * (ult ** 3)
+        neuber_tor = 0.190 - neuber_tor_1 + neuber_tor_2 - neuber_tor_3
+
     else:
         print("Out of range :(")
 
-    return nc_bend, nc_tor
+    return neuber_bend, neuber_tor
 
 ### fatigue factor
-def fatigue_factor(K_t, K_ts, r, ult):
-    sqrt_r = math.sqrt(r)  # r is notch radius
-    nc_bend, nc_tor = neuber_constant(ult)
+def fatigue_factor(K_t, K_ts, r_notch, ult):
+    # K_t is bending stress concentration factor
+    # K_ts is shear stress concentration factor
+    # r_notch is the notch radius
+    # ult is the ultimate tensile strength
+
+    sqrt_r = math.sqrt(r_notch)  # r is notch radius
+    neuber_bend, neuber_tor = neuber_constant(ult)
 
     # bending - use a for bending/ axial
-    K_f = 1 + ((K_t - 1) / (1 + (nc_bend / sqrt_r)))        # fatigue stress concentration factor
+    K_f = 1 + ((K_t - 1) / (1 + (neuber_bend / sqrt_r)))        # fatigue stress concentration factor
     q = (K_f - 1) / (K_t - 1)                               # q is notch sensitivity
 
     # shear - use a for torsion
-    K_fs = 1 + ((K_ts - 1) / (1 + (nc_tor / sqrt_r)))       # fatigue stress concentration factor
+    K_fs = 1 + ((K_ts - 1) / (1 + (neuber_tor / sqrt_r)))       # fatigue stress concentration factor
     q_shear = (K_fs - 1) / (K_ts - 1)                       # q is notch sensitivity
 
     return K_f, q, K_fs, q_shear
@@ -130,24 +143,52 @@ def steady_load():
     steady_torque = 0
 
 def alternating_stress(K_f, K_fs, a_m, a_t, d):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # d is diameter of shaft section
+
     a_norm = ((32 * K_f * a_m) / (math.pi * (d ** 3)))
     a_shear = ((16 * K_fs * a_t) / (math.pi * (d ** 3)))
     return a_norm, a_shear
 
 def steady_stress(K_f, K_fs, s_m, s_t, d):
-# steady stress
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+
     s_norm = (32 * K_f * s_m) / (math.pi * (d ** 3))
     s_shear = (16 * K_fs * s_t) / (math.pi * (d ** 3))
     return s_norm, s_shear
 
 def total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+
     a_norm, a_shear = alternating_stress(K_f, K_fs, a_m, a_t, d)
     s_norm, s_shear = steady_stress(K_f, K_fs, s_m, s_t, d)
     return a_norm, a_shear, s_norm, s_shear
 
-def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d):
+def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+    # ult is the ultimate tensile strength
+
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
-    s_e = endurance_limit()
+    s_e = endurance_limit(ult)
 
     goodman_a_m = 4 * ((K_f * a_m) ** 2)        # alternating moment goodman
     goodman_a_t = 3 * ((K_fs * a_t) ** 2)       # alternating torque goodman
