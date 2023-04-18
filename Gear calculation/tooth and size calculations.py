@@ -47,7 +47,9 @@ def checkGearRatio(N1, N2, m, e):
     if percentError < e:
         print("The specified Gear ratio is within allowable bounds. "
               "The percent difference between the actual gear ratio and ideal gear ratio is " + str(round(percentError, 4)) + "%")
-
+    else:
+        print("BAD RATIO DUMBASS")
+        print(percentError)
 def pitchlineVelocity(d, n):
     #using equation 13-34 the pitchline velocity is calculated in feet/second
     V = math.pi * d * n / 12
@@ -90,7 +92,9 @@ def main():
     maxGearTeeth = maximumNumberOfTeethOnGear(minPinionTeeth, k, helixAngle, transversePressureAngle)
     print("The maximum number of teeth allowable on the gear is " + str(maxGearTeeth))
     #gear and pinion sizes are calculated using specified ratio
+    minPinionTeeth +=2
     numberOfPinionTeeth, numberOfGearTeeth = gearSizes(minPinionTeeth, maxGearTeeth, m)
+    numberOfGearTeeth -= 0
     #allowable tolerance is defined from the gear box specifications
     print("The number of teeth on the pinion and gear are " + str(numberOfPinionTeeth) + " and " + str(numberOfGearTeeth))
     allowablePercentError = 1
@@ -106,6 +110,7 @@ def main():
     #units in teeth/inch
     normalDiametralPitch = findNormalDiametralPitch(numberOfPinionTeeth, numberOfGearTeeth, allowableWidth, clearanceAndWallThickness, helixAngle)
     #transverse diametral pitch is calculated using equation 13-18
+    normalDiametralPitch = 8
     transverseDiametralPitch = normalDiametralPitch * math.cos(math.radians(helixAngle))
     print("Using a Normal pitch of " + str(normalDiametralPitch) +  " the Transverse diametral pitch is " + str(transverseDiametralPitch) + " teeth per inch")
     #gear and pinion diameters are calculated using equation 13-1
