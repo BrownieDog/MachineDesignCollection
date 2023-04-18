@@ -35,12 +35,13 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
 
     S_c =                        # allowable contact stress (lbf/in^2) - Table 14-6, 14-7, and Fig 14-5
     Z_N = contact_stress_cycle_factor(N)                # Z_N is wear/ contact stress cycle life factor
-    C_H_gear = gear_hardness_ratio_factor()                        # gear hardness ratio factors for pitting resistance
-    C_H_pinion = pinion_hardness_ratio_factor()                   # pinion hardness ratio factors for pitting resistance
+    C_H_G = gear_hardness_ratio_factor()                        # gear hardness ratio factors for pitting resistance
+    C_H_P = pinion_hardness_ratio_factor()                   # pinion hardness ratio factors for pitting resistance
 
     # AGMA wear/contact factor of safety, a stress ratio
-    S_H_gear = contact_safety_factor_AGMA(S_c, Z_N, C_H_gear, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
-    S_H_pinion = contact_safety_factor_AGMA(S_c, Z_N, C_H_pinion, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_gear = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_pinion = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    return K_o, K_v, K_s, K_m, K_B, J, S_t, Y_N, K_T, K_R, S_F, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P
 
 def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     # W_t tangential transmitted load (lbf)
@@ -82,6 +83,13 @@ def calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     return calc_cont_stress_AGMA
 
 def calc_allowable_contact_stress_AGMA(S_c, Z_N, C_H, K_T, K_R, S_H):
+    # S_c is allowable contact stress (lbf/in^2)
+    # Z_N is wear/ contact stress cycle life factor
+    # C_H is hardness ratio factors for pitting resistance
+    # K_T is temperature factor
+    # K_R is reliability factor
+    # S_H is AGMA wear/contact factor of safety, a stress ratio
+
     calc_allow_cont_AGMA = (S_c / S_H) * ((Z_N * C_H) / K_T * K_R)
     return calc_allow_cont_AGMA
 
@@ -157,47 +165,47 @@ def bending_geometry_factor(p_x, F):
     return J
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
-    v_P = 0.3      # pinion Poisson's ratio
+    v_P = 0.3               # pinion Poisson's ratio
     E_P = 30 * 10 ** 6      # pinion Modulus of Elasticity
 
-    v_G = 0.3      # gear Poisson's ratio
+    v_G = 0.3               # gear Poisson's ratio
     E_G = 30 * 10 ** 6      # gear Modulus of Elasticity
 
     C_p_1 = (1 - v_P ** 2) / E_P
     C_p_2 = (1 - v_G ** 2) / E_G
 
-    C_p = math.sqrt(1 / (math.pi * (C_p_1 + C_p_2)))
+    C_p = math.sqrt(1 / (math.pi * (C_p_1 + C_p_2)))        # elastic coefficient
     return C_p
 
 def dynamic_factor(V, Q_v):
-    # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
+    # Q_v is quality number of gears
 
     B_v = 0.25 * (12 - Q_v) ** (2 / 3)
     A_v = 50 + 56 * (1 - B_v)
 
-    K_v = ((A_v + math.sqrt(V)) / A_v) ** B_v
+    K_v = ((A_v + math.sqrt(V)) / A_v) ** B_v       # dynamic factor
     return K_v
 
 def overload_factor():
-    K_o = 1.25     # check page 882-758
+    K_o = 1.25     # check page 882-758             # overload factor
     return K_o
 
 def load_distribution_factor(d_P, F, S):
-    # d_P pinion pitch diameter
-    # F face width of the narrowest member
-    # S distance between center of bearings
+    # d_P is pinion pitch diameter
+    # F is face width of the narrowest member
+    # S is distance between center of bearings
 
-    C_mc = 1  # uncrowned
+    C_mc = 1            # uncrowned
 
-    if F <= 1:  # in
+    if F <= 1:          # in
         C_pf = (F / (10 * d_P)) - 0.025
-    elif 1 < F <= 17: # in
+    elif 1 < F <= 17:   # in
         C_pf = (F / (10 * d_P)) - 0.0375 + 0.0125 * F
     else:
-        print(":(")
+        print(":(")     # I am sad
 
-    S_1 = 0 # centered
+    S_1 = 0             # centered
 
     if S_1 / S < 0.175:
         C_pm = 1
@@ -225,30 +233,33 @@ def gear_hardness_ratio_factor(m_G):
         A_H = (8.98 * 10 ** -3) * BH - (8.29 * 10 ** -3)
     elif BH > 1.7:
         A_H = 0.00698
-    C_H = 1.0 + A_H * (m_G - 1.0)
+    C_H = 1.0 + A_H * (m_G - 1.0)   # gear hardness factor
     # if surface hardened, it is something else
     return C_H
 
 def pinion_hardness_ratio_factor():
-    C_H = 1
+    C_H = 1     # pinion hardness factor
     return C_H
 
 def bending_stress_cycle_factor(N):
     # N is number of cycles
-    Y_N = 1.6831 * (N ** -0.0323)      # Fig 14-14
+
+    Y_N = 1.6831 * (N ** -0.0323)      # Fig 14-14      # bending cycle factor
     return Y_N
 
 def contact_stress_cycle_factor(N):
-    Z_N = 2.66 * (N ** -0.056)  # Fig 14-15
+    # N is number of cycles
+
+    Z_N = 2.66 * (N ** -0.056)  # Fig 14-15             # contact cycle factor
     return Z_N
 
 def reliability_factor():
     R = 0.90        # reliability
-    K_R = 0.658 - 0.0759 * math.log(1 - R, math.e)
+    K_R = 0.658 - 0.0759 * math.log(1 - R, math.e)      # reliability factor
     return K_R
 
 def temperature_factor():
-    K_T = 1 # for temp up to 250 F
+    K_T = 1 # for temp up to 250 F                      # temperature factor
     return K_T
 
 def rim_thickness_factor():
