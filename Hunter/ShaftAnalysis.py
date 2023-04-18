@@ -4,7 +4,7 @@ import math
 def shoulder_fillet_sharp(d):
     # d is diameter of shaft section
 
-    r = d * 0.02    # notch radius
+    r_notch = d * 0.02    # notch radius
     K_t = 2.7       # K_t for bending
     K_ts = 2.2      # K_ts for shear
     return K_t, K_ts
@@ -12,13 +12,13 @@ def shoulder_fillet_sharp(d):
 def shoulder_fillet_round(d):
     # d is diameter of shaft section
 
-    r = d * 0.02    # notch radius
+    r_notch = d * 0.02    # notch radius
     K_t = 1.7       # K_t for bending
     K_ts = 1.5      # K_ts for shear
     return K_t, K_ts
 
 def retaining_ring_groove():
-    r = 0.01        # notch radius
+    r_notch = 0.01        # notch radius
     K_t = 5.0       # K_t for bending
     K_ts = 3.0      # K_ts for shear
     return K_t, K_ts
@@ -26,7 +26,7 @@ def retaining_ring_groove():
 def end_mill_keyseat(d):
     # d is diameter of shaft section
 
-    r = d * 0.02    # notch radius
+    r_notch = d * 0.02    # notch radius
     K_t = 2.14      # K_t for bending
     K_ts = 3.0      # K_ts for shear
     return K_t, K_ts
@@ -58,7 +58,7 @@ def size_factor(d):         # k_b - size factor
     # for rotating round specimens in bending
     if 0.11 <= d <= 2:  # inch
         k_b = 0.879 * (d ** -0.107)  # inch
-    elif 2 < d < 10:  # inch
+    elif 2 < d < 10:    # inch
         k_b = 0.91 * (d ** -0.157)  # inch
     else:
         print("The shaft diameter is not in range")
@@ -82,6 +82,7 @@ def endurance_limit(ult):
 
     k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors()
     s_ei = specimen_endurance_limit(ult)
+
     s_e = k_a * k_b * k_c * k_d * k_e * k_f * s_ei      # endurance limit
     return s_e
 
@@ -177,7 +178,7 @@ def total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d):
     s_norm, s_shear = steady_stress(K_f, K_fs, s_m, s_t, d)
     return a_norm, a_shear, s_norm, s_shear
 
-def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
+def goodman_fatigue_safety_factor(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
     # K_f is fatigue bending stress concentration factor
     # K_fs is fatigue shear stress concentration factor
     # a_m is alternating moment
@@ -188,6 +189,7 @@ def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
     # ult is the ultimate tensile strength
 
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
+
     s_e = endurance_limit(ult)
 
     goodman_a_m = 4 * ((K_f * a_m) ** 2)        # alternating moment goodman
@@ -200,10 +202,19 @@ def goodman_fatigue_n(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
 
     goodman_coeff = 16 / (math.pi * (d ** 3))   # a coefficient used in the final calculation. It simply saves space
 
-    n_goodman = 1 / goodman_coeff * (goodman_a + goodman_s)
-    return n_goodman
+    S_F_goodman = 1 / goodman_coeff * (goodman_a + goodman_s)
+    return S_F_goodman
 
 def first_cycle_yield_vm(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):        # checking 1st cycle yield with Von Mises
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+    # s_y is yield strength
+
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
 
     tot_norm = a_norm + s_norm          # total normal stress
@@ -213,14 +224,23 @@ def first_cycle_yield_vm(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):        # checki
     return n_vm
 
 def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
+    # K_f is fatigue bending stress concentration factor
+    # K_fs is fatigue shear stress concentration factor
+    # a_m is alternating moment
+    # a_t is alternating torque
+    # s_m is steady moment
+    # s_t is steady torque
+    # d is diameter of shaft section
+    # s_y is yield strength
+
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
 
     alt = math.sqrt((a_norm ** 2) + (3 * (a_shear ** 2)))       # total alternating stress
     steady = math.sqrt((s_norm ** 2) + (3 * (s_shear ** 2)))    # total steady stress
     total = alt + steady                                        # total stress
 
-    n_cons = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
-    return n_cons
+    S_F_conservative = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
+    return S_F_conservative
 
 def shear_diagram(f):
 
