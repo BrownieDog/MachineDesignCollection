@@ -1,7 +1,7 @@
 import math
 
 # stress concentration factors for different geometries
-def shoulder_fillet_sharp(d):
+def shoulder_fillet_sharp(d):   # Table 7-1
     # d is diameter of shaft section
 
     r_notch = d * 0.02    # notch radius
@@ -9,7 +9,7 @@ def shoulder_fillet_sharp(d):
     K_ts = 2.2      # K_ts for shear
     return K_t, K_ts
 
-def shoulder_fillet_round(d):
+def shoulder_fillet_round(d):   # Table 7-1
     # d is diameter of shaft section
 
     r_notch = d * 0.02    # notch radius
@@ -17,13 +17,13 @@ def shoulder_fillet_round(d):
     K_ts = 1.5      # K_ts for shear
     return K_t, K_ts
 
-def retaining_ring_groove():
+def retaining_ring_groove():   # Table 7-1
     r_notch = 0.01        # notch radius
     K_t = 5.0       # K_t for bending
     K_ts = 3.0      # K_ts for shear
     return K_t, K_ts
 
-def end_mill_keyseat(d):
+def end_mill_keyseat(d):   # Table 7-1
     # d is diameter of shaft section
 
     r_notch = d * 0.02    # notch radius
@@ -31,19 +31,19 @@ def end_mill_keyseat(d):
     K_ts = 3.0      # K_ts for shear
     return K_t, K_ts
 
-def specimen_endurance_limit(ult):      # rotary-beam test specimen endurance limit
+def specimen_endurance_limit(ult):      # Eqn 6-10      # rotary-beam test specimen endurance limit
     # ult is ultimate tensile strength
 
-    if ult <= 200:  # ksi
-        s_ei = 0.5 * ult
-    elif ult > 200:  # ksi
-        s_ei = 100  # ksi
+    if ult <= 200:          # ksi
+        s_ei = 0.5 * ult    # ksi
+    elif ult > 200:         # ksi
+        s_ei = 100          # ksi
     else:
-        print("Out of range :(")
+        print(f"ult is out of range")
     return s_ei
 
 # find coefficients of endurance limit
-def surface_factor(ult):       # k_a - surface factor
+def surface_factor(ult):                # Table 6-2 for machined surface in ksi
     # ult is ultimate tensile strength
 
     a = 2.00                # from Table 6-2 for machined surface
@@ -52,7 +52,7 @@ def surface_factor(ult):       # k_a - surface factor
     k_a = a * (ult ** b)    # surface factor
     return k_a
 
-def size_factor(d):         # k_b - size factor
+def size_factor(d):         # Eqn 6-19
     # d is diameter of shaft section
 
     # for rotating round specimens in bending
