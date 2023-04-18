@@ -271,3 +271,19 @@ def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s,
 
     return S_H
     # must be greater than 1.2
+
+def main():
+    W_t = 1
+    Q_v =1
+    V = 1
+    P_d = 1
+    N = 1
+    F = 2
+    p_x = 1
+    d_P = 1
+    pt_angle = 1
+    N_G = 33
+    N_P = 11
+    d_G = 1
+    P_n  = 1
+    S = 1
