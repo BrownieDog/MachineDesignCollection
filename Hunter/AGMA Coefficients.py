@@ -52,9 +52,10 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     S_H_G = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
     S_H_P = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
 
-
+    print("Stress and I")
     print(calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I))
     print(I)
+    print(Z_N)
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
 
 def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
@@ -92,8 +93,6 @@ def calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     # F is face width of narrow member
     # C_f is surface condition factor
     # I is contact geometry factor
-    print(W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I))
-    print(I)
     calc_cont_stress_AGMA = C_p * math.sqrt(W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I))
     return calc_cont_stress_AGMA
 
@@ -154,9 +153,8 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
         Z = Z_1 + Z_3 - Z_2
     else:
         Z = Z_1 + Z_2 - Z_3
-        print("else")
     print(Z)
-    p_n = N_G / d_G                 # normal circular pitch
+    p_n = math.pi / P_n                 # normal circular pitch
     # round up to a standard
 
     p_N = p_n * math.cos(math.radians(pt_angle))
@@ -585,6 +583,7 @@ def main():
     cyclesPinion = cyclesLifetime(rpmOutActual)
     cyclesGear = cyclesLifetime(rpmIn)
     axialPitch = math.pi/ (transverseDiametralPitch * math.tan(math.radians(helixAngle)))
+    normalCircularPitch = math.pi / normalDiametralPitch
     Q_V = 11
     F = 2
     # W_t is tangential transmitted load (lbf)

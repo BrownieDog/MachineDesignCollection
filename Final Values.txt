@@ -12,6 +12,8 @@ pinion diameter: 1.8763883748662835 in
 pitchline velocity: 9873.870289050023 feet/second
 transmitted load: 501.3231747118936 lbf
 
+to do
+we assumed induction hardened grade 1 but can use through hardened of either grade. adjust guess to ensure cheapest option
 
 Questions for elsworth
 do shaft diameters need rounded up to any kind of standard size. ie round to the nearest tenth inch
