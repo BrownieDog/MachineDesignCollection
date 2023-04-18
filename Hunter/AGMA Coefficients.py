@@ -84,6 +84,8 @@ def calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     # F is face width of narrow member
     # C_f is surface condition factor
     # I is contact geometry factor
+    teste = W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I)
+    print(teste)
 
     calc_cont_stress_AGMA = C_p * math.sqrt(W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I))
     return calc_cont_stress_AGMA
@@ -304,8 +306,8 @@ def gear_hardness_ratio_factor(N_G, N_P, d_G, d_P):
 
     m_G = speed_ratio(N_G, N_P, d_G, d_P)
 
-    H_BP = None
-    H_HG = None
+    H_BP = 1 #should be changed
+    H_HG = 1 #should be changed
     BH = H_BP / H_HG    # Brinell hardness
     BH = 1        # guess
     if BH < 1.2:
