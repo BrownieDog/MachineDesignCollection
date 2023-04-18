@@ -1,6 +1,6 @@
 import math
 
-def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S, J):
+def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
@@ -22,7 +22,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     K_s = 1                                         # size factor
     K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
     K_B = rim_thickness_factor()                    # rim-thickness factor
-#    J = bending_geometry_factor(p_x, F)            # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
+    J = bending_geometry_factor(p_x, F)             # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
     Y_N = bending_stress_cycle_factor(N)            # Y_N is bending stress cycle life factor
@@ -152,19 +152,62 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
 
     return I_ext                    # external gear
 
-#def bending_geometry_factor(p_x, F):
-#    # p_x is axial pitch
-#    # F is narrow face width
-#
-#    m_F = F / p_x
-#
-#    if m_F >= 2:
-#        J_mod = None            # Fig 14-7
-#        J_factor = None       # Fig 14-8
-#        J = J_mod * J_factor
-#    else:
-#        print(":(")
-#    return J
+def pinion_bending_geometry_factor(p_x, F, N_P):
+    # p_x is axial pitch
+    # F is narrow face width
+    # N_P is number of teeth in the pinion
+
+    m_F = F / p_x
+
+    if m_F >= 2:
+        # J_mod = None            # Fig 14-7
+        # J_factor = None       # Fig 14-8
+
+        if N_P <= 25:
+            J_mod = 0.465
+        elif N_P <= 45:
+            J_mod = 0.5
+        elif N_P <= 105:
+            J_mod = 0.54
+        elif N_P <= 325:
+            J_mod = 0.565
+        else:
+            J_mod = 0.58
+
+    else:
+        print(":(")
+
+    J = J_mod * J_factor
+    return J
+
+def gear_bending_geometry_factor(p_x, F, N_G):
+    # p_x is axial pitch
+    # F is narrow face width
+    # N_G is number of teeth in the gear
+
+    m_F = F / p_x
+
+    if m_F >= 2:
+        # J_mod = None            # Fig 14-7
+        # J_factor = None       # Fig 14-8
+        if N_G <= 25:
+            J_mod = 0.945
+        elif N_G <= 40:
+            J_mod = 0.965
+        elif N_G <= 62:
+            J_mod = 0.99
+        elif N_G <= 112:
+            J_mod = 1.0
+        elif N_G <= 325:
+            J_mod = 1.015
+        else:
+            J_mod = 1.0275
+    else:
+        print(":(")
+
+    J = J_mod * J_factor
+    return J
+
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
     v_P = 0.3               # pinion Poisson's ratio
@@ -236,13 +279,14 @@ def gear_hardness_ratio_factor(N_G, N_P, d_G, d_P):
     H_BP = None
     H_HG = None
     BH = H_BP / H_HG    # Brinell hardness
-    BH = 300        # guess
+    BH = 1        # guess
     if BH < 1.2:
         A_H = 0
     elif 1.2 <= BH <= 1.7:
         A_H = (8.98 * 10 ** -3) * BH - (8.29 * 10 ** -3)
     elif BH > 1.7:
         A_H = 0.00698
+
     C_H = 1.0 + A_H * (m_G - 1.0)   # gear hardness factor
     # if surface hardened, it is something else
     return C_H
