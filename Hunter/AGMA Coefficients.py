@@ -57,6 +57,12 @@ def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     return calc_bend_AGMA
 
 def calc_allowable_bending_stress_AGMA(S_t, S_F, Y_N, K_T, K_R):
+    # S_t is bending strength (lbf/in^2)
+    # S_F is AGMA bending factor of safety
+    # Y_N is bending stress cycle life factor
+    # K_T is temperature factor
+    # K_R is reliability factor
+
     calc_allow_bend_AGMA = (S_t / S_F) * (Y_N / (K_T * K_R))
     return calc_allow_bend_AGMA
 
@@ -137,8 +143,9 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     return I_ext                    # external gear
 
 def bending_geometry_factor(p_x, F):
-    # F is narrow face width
     # p_x is axial pitch
+    # F is narrow face width
+
     m_F = F / p_x
 
     if m_F >= 2:
