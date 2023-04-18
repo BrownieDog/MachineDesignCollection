@@ -22,7 +22,8 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     K_s = 1                                         # size factor
     K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
     K_B = rim_thickness_factor()                    # rim-thickness factor
-    J = bending_geometry_factor(p_x, F)             # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
+    J_P = pinion_bending_geometry_factor(p_x, F, N_P)             # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
+    J_G = gear_bending_geometry_factor(p_x, F, N_G)
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
     Y_N = bending_stress_cycle_factor(N)            # Y_N is bending stress cycle life factor
@@ -39,9 +40,13 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     C_H_G = gear_hardness_ratio_factor(N_G, N_P, d_G, d_P)       # gear hardness ratio factors for pitting resistance
     C_H_P = pinion_hardness_ratio_factor()          # pinion hardness ratio factors for pitting resistance
 
+    # AGMA bending stress factor of safety, a stress ratio
+    S_F_G = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_G)
+    S_F_P = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)
+
     # AGMA wear/contact factor of safety, a stress ratio
-    S_H_gear = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
-    S_H_pinion = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_G = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_P = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
 
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, S_F, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P
 
@@ -174,11 +179,24 @@ def pinion_bending_geometry_factor(p_x, F, N_P):
         else:
             J_mod = 0.58
 
+        if N_P <= 25:
+            J_factor = 0.945
+        elif N_P <= 40:
+            J_factor = 0.965
+        elif N_P <= 62:
+            J_factor = 0.99
+        elif N_P <= 112:
+            J_factor = 1.0
+        elif N_P <= 325:
+            J_factor = 1.015
+        else:
+            J_factor = 1.0275
+
     else:
         print(":(")
 
-    J = J_mod * J_factor
-    return J
+    J_P = J_mod * J_factor
+    return J_P
 
 def gear_bending_geometry_factor(p_x, F, N_G):
     # p_x is axial pitch
@@ -191,22 +209,33 @@ def gear_bending_geometry_factor(p_x, F, N_G):
         # J_mod = None            # Fig 14-7
         # J_factor = None       # Fig 14-8
         if N_G <= 25:
-            J_mod = 0.945
-        elif N_G <= 40:
-            J_mod = 0.965
-        elif N_G <= 62:
-            J_mod = 0.99
-        elif N_G <= 112:
-            J_mod = 1.0
+            J_mod = 0.465
+        elif N_G <= 45:
+            J_mod = 0.5
+        elif N_G <= 105:
+            J_mod = 0.54
         elif N_G <= 325:
-            J_mod = 1.015
+            J_mod = 0.565
         else:
-            J_mod = 1.0275
+            J_mod = 0.58
+
+        if N_G <= 25:
+            J_factor = 0.945
+        elif N_G <= 40:
+            J_factor = 0.965
+        elif N_G <= 62:
+            J_factor = 0.99
+        elif N_G <= 112:
+            J_factor = 1.0
+        elif N_G <= 325:
+            J_factor = 1.015
+        else:
+            J_factor = 1.0275
     else:
         print(":(")
 
-    J = J_mod * J_factor
-    return J
+    J_G = J_mod * J_factor
+    return J_G
 
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
