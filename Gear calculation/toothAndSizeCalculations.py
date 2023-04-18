@@ -154,5 +154,4 @@ def main():
     cyclesPinion = cyclesLifetime(rpmOutActual)
     cyclesGear = cyclesLifetime(rpmIn)
 
-
 main()

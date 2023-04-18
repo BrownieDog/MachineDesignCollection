@@ -52,6 +52,9 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     S_H_G = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
     S_H_P = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
 
+
+    print(calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I))
+    print(I)
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
 
 def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
@@ -151,7 +154,8 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
         Z = Z_1 + Z_3 - Z_2
     else:
         Z = Z_1 + Z_2 - Z_3
-
+        print("else")
+    print(Z)
     p_n = N_G / d_G                 # normal circular pitch
     # round up to a standard
 
@@ -332,6 +336,7 @@ def pinion_hardness_ratio_factor():
     C_H = 1     # pinion hardness factor
     return C_H
 
+#we need to adjust for whether its pinion or gear here and in J
 def bending_stress_cycle_factor(N):
     # N is number of cycles
 
