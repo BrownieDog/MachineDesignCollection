@@ -231,12 +231,12 @@ def gear_bending_geometry_factor(p_x, F, N_G):
             J_factor = 1.015
         else:
             J_factor = 1.0275
+
     else:
         print(":(")
 
     J_G = J_mod * J_factor
     return J_G
-
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
     v_P = 0.3               # pinion Poisson's ratio
