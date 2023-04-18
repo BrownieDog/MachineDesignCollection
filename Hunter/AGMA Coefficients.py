@@ -171,7 +171,8 @@ def pinion_bending_geometry_factor(p_x, F, N_P):
     # p_x is axial pitch
     # F is narrow face width
     # N_P is number of teeth in the pinion
-
+    print(p_x)
+    print("here")
     m_F = F / p_x
 
     if m_F >= 2:
@@ -486,20 +487,6 @@ def cyclesLifetime(rpm):
     return cycles
 
 def main():
-    W_t = 1
-    Q_v =1
-    V = 1
-    P_d = 1
-    N = 1
-    F = 2
-    p_x = 1
-    d_P = 1
-    pt_angle = 1
-    N_G = 33
-    N_P = 11
-    d_G = 1
-    P_n  = 1
-    S = 1
     allowableWidth = 15
     clearanceAndWallThickness = 1.5
     hp = 150
@@ -582,10 +569,11 @@ def main():
     print("The transmitted load is " + str(Wt))
     cyclesPinion = cyclesLifetime(rpmOutActual)
     cyclesGear = cyclesLifetime(rpmIn)
-    axialPitch = math.pi/ (transverseDiametralPitch * math.tan(math.radians(helixAngle)))
+    axialPitch = ((math.pi/ transverseDiametralPitch) / math.tan(math.radians(helixAngle)))
     normalCircularPitch = math.pi / normalDiametralPitch
     Q_V = 11
     F = 2
+    S = 3.375
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
