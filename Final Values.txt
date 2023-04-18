@@ -11,3 +11,11 @@ gear diameter: 9.526279441628825 in
 pinion diameter: 3.1754264805429413 in
 pitchline velocity: 16709.62664300773 feet/second
 transmitted load: 296.23642142066444 lbf
+
+
+Questions for elsworth
+do shaft diameters need rounded up to any kind of standard size. ie round to the nearest tenth inch
+what are Hbp and Hbg for finding the hardness ratio factor
+do the gears need to have a rim specified or can we assume that they are the same thickness all across for finding rim thickness factor
+does it matter if we use equation 14-13 or table 14-8 for finding the Cp (elastic coefficent)
+how to read J chart since teeth number on pinion is less than 20
