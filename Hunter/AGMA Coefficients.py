@@ -29,7 +29,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     K_R = reliability_factor()                      # reliability factor
     S_F = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J)                  # AGMA bending factor of safety, a stress ratio
 
-    C_p = elastic_coefficient()                       # elastic coefficient (sqrt(lbf/in^2))
+    C_p = elastic_coefficient()                     # elastic coefficient (sqrt(lbf/in^2))
     C_f = 1                      # surface condition factor
     I = contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n)  # I is contact geometry factor for pitting resistance
 
@@ -150,11 +150,11 @@ def bending_geometry_factor(p_x, F):
     return J
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
-    v_P =       # pinion Poisson's ratio
-    E_P =       # pinion Modulus of Elasticity
+    v_P = 0.3      # pinion Poisson's ratio
+    E_P = 30 * 10 ** 6      # pinion Modulus of Elasticity
 
-    v_G =       # gear Poisson's ratio
-    E_G =       # gear Modulus of Elasticity
+    v_G = 0.3      # gear Poisson's ratio
+    E_G = 30 * 10 ** 6      # gear Modulus of Elasticity
 
     C_p_1 = (1 - v_P ** 2) / E_P
     C_p_2 = (1 - v_G ** 2) / E_G
@@ -271,6 +271,7 @@ def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s,
 
     return S_H
     # must be greater than 1.2
+
 
 def main():
     W_t = 1
