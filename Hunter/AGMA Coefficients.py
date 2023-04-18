@@ -29,7 +29,6 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     Y_N = bending_stress_cycle_factor(N)            # Y_N is bending stress cycle life factor
     K_T = temperature_factor()                      # temperature factor
     K_R = reliability_factor()                      # reliability factor
-    S_F = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J)                  # AGMA bending factor of safety, a stress ratio
 
     C_p = elastic_coefficient()                     # elastic coefficient (sqrt(lbf/in^2))
     C_f = 1                      # surface condition factor
