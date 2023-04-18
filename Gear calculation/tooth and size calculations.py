@@ -121,4 +121,6 @@ def main():
     print("The transmitted load is " + str(Wt))
     cyclesPinion = cyclesLifetime(rpmOutActual)
     cyclesGear = cyclesLifetime(rpmIn)
+
+
 main()
