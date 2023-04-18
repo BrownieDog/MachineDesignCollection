@@ -212,7 +212,7 @@ def gear_bending_geometry_factor(p_x, F, N_G):
     # p_x is axial pitch
     # F is narrow face width
     # N_G is number of teeth in the gear
-
+    print(str(p_x) + "here")
     m_F = F / p_x
 
     if m_F >= 2:
@@ -601,9 +601,17 @@ def main():
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
     # J is geometry factor for bending stress including root fillet stress concentration factor
+    #coefficients for gear
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
             pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
             numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
+    print(S_F_G, S_F_P, S_H_G, S_H_P)
+
+    K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(
+        Wt, Q_V,
+        pitchline, transverseDiametralPitch, pinionDiameter, cyclesPinion, F, axialPitch, transversePressureAngle,
+        numberOfGearTeeth,
+        numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
     print(S_F_G, S_F_P, S_H_G, S_H_P)
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
