@@ -16,8 +16,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
 
-    print("one")
-    print(d_P)
+
     K_o = overload_factor()                         # overload factor
     K_v = dynamic_factor(V, Q_v)                    # dynamic factor
     K_s = 1                                         # size factor
@@ -26,8 +25,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     J_P = pinion_bending_geometry_factor(p_x, F, N_P)             # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
     J_G = gear_bending_geometry_factor(p_x, F, N_G)
 
-    print("two")
-    print(d_P)
+
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
     Y_N = bending_stress_cycle_factor(N)            # Y_N is bending stress cycle life factor
@@ -38,8 +36,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     C_f = 1                      # surface condition factor
     I = contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n)  # I is contact geometry factor for pitting resistance
 
-    print("3")
-    print(d_P)
+
 
     S_c = 170000    # guess                         # allowable contact stress (lbf/in^2) - Table 14-6, 14-7, and Fig 14-5
     Z_N = contact_stress_cycle_factor(N)            # Z_N is wear/ contact stress cycle life factor
@@ -50,7 +47,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     S_F_G = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_G)
     S_F_P = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)
 
-    print(d_P)
+
     # AGMA wear/contact factor of safety, a stress ratio
     S_H_G = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
     S_H_P = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
@@ -92,8 +89,8 @@ def calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     # F is face width of narrow member
     # C_f is surface condition factor
     # I is contact geometry factor
-    teste = W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I)
-    print(d_P)
+    print(W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I))
+    print(I)
     calc_cont_stress_AGMA = C_p * math.sqrt(W_t * K_o * K_v * K_s * (K_m / (d_P * F)) * (C_f / I))
     return calc_cont_stress_AGMA
 
@@ -144,6 +141,9 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     Z_1 = (r_P + a) ** 2 - r_bP ** 2
     Z_2 = (r_G + a) ** 2 - r_bG ** 2
     Z_3 = (r_P + r_G) * math.sin(math.radians(pt_angle))
+    print("Z1 " + str(Z_1))
+    print("Z2 " + str(Z_2))
+    print("Z3 " + str(Z_3))
 
     if Z_1 > Z_3:
         Z = math.sqrt(Z_3) + math.sqrt(Z_2) - Z_1
@@ -277,7 +277,7 @@ def load_distribution_factor(d_P, F, S):
     # d_P is pinion pitch diameter
     # F is face width of the narrowest member
     # S is distance between center of bearings
-
+    print(d_P)
     C_mc = 1            # uncrowned
 
     if F <= 1:          # in
@@ -460,7 +460,7 @@ def checkGearRatio(N1, N2, m, e):
         print("The specified Gear ratio is within allowable bounds. "
               "The percent difference between the actual gear ratio and ideal gear ratio is " + str(round(percentError, 4)) + "%")
     else:
-        print("BAD RATIO DUMBASS")
+        print("the ratio is unnacceptable")
         print(percentError)
 def pitchlineVelocity(d, n):
     #using equation 13-34 the pitchline velocity is calculated in feet/second
@@ -579,7 +579,7 @@ def main():
     print("The transmitted load is " + str(Wt))
     cyclesPinion = cyclesLifetime(rpmOutActual)
     cyclesGear = cyclesLifetime(rpmIn)
-    axialPitch = transverseDiametralPitch/ (math.pi * math.tan(math.radians(helixAngle)))
+    axialPitch = math.pi/ (transverseDiametralPitch * math.tan(math.radians(helixAngle)))
     Q_V = 11
     F = 2
     # W_t is tangential transmitted load (lbf)
@@ -597,11 +597,9 @@ def main():
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
     # J is geometry factor for bending stress including root fillet stress concentration factor
-    print(pinionDiameter)
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
-            pitchline, transverseDiametralPitch, cyclesGear, F, axialPitch, pinionDiameter, transversePressureAngle, numberOfGearTeeth,
+            pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
             numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-    print("end")
     print(K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P)
-
+#def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()

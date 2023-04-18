@@ -18,8 +18,8 @@ H = 550*hp*60/(2*math.pi)
 Ti = H/Ohi
 To = H/Oho
 
-dg = 9.526
-dp = 3.175
+dg = 5.629165124598851
+dp = 1.8763883748662835
 V = math.pi*dp*Oho/12
 Wt = 33000*hp/V
 
@@ -40,7 +40,7 @@ Fdy = (1.875*Wr+(dp/2)*Wa)/3.75
 Fdz = 1.875*Wt/3.75
 
 Fcx = Wa
-Fcy = -(Wr-Fdy)
+Fcy = (Wr-Fdy)
 Fcz = Wt-Fdz
 
 print("Input shaft")
