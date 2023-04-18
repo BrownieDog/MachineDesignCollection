@@ -30,10 +30,10 @@ print("Number of teeth on gear: ", Ng)
 
 ## Gear and pinion diameter
 
-dp = 3.175
+dp = 3.1754264805429413
 print("Pinion diameter: ", dp)
 
-dg = 9.526
+dg = 9.526279441628825
 print("Gear diameter: ", dg)
 
 P = Ng/dg
@@ -72,34 +72,44 @@ print("Total force magnitude: ", W)
 ## Bearing forces
 
 ## input shaft
-print("Fbx: ", Wa)
+print("\nInput Shaft")
+print("Wt: ", Wt)
+print("Wa: ", Wa)
+print("Wr: ", Wr)
 
-Fby = (1.5*Wr+(dg/2)*Wa)/3
+Fbx = Wa
+print("Fbx: ", Fbx)
+
+Fby = (1.875*Wr+(dg/2)*Wa)/3.75
 print("Fby: ", Fby)
 
-Fbz = 1.5*Wt/3
+Fbz = 1.875*Wt/3.75
 print("Fbz: ", Fbz)
-
-Faz = Wt-Fbz
-print("Faz: ", Faz)
 
 Fay = Wr-Fby
 print("Fay: ", Fay)
 
-## Output Shaft
+Faz = Wt-Fbz
+print("Faz: ", Faz)
 
-Fdy = (1.5*Wr-(dp/2)*Wa)/3
+
+## Output Shaft
+print("\nOutput Shaft")
+
+Fcx = Wa
+print("Fcx: ", Fcx)
+
+Fdy = (1.875*Wr-(dp/2)*Wa)/3.75
 print("Fdy: ", Fdy)
 
-Fdz = 1.5*Wt/3
+Fdz = 1.875*Wt/3.75
 print("Fdz: ", Fdz)
-
-print("Fcx: ", Wa)
 
 Fcy = Wr-Fdy
 print("Fcy: ", Fcy)
 
-print("Fcz: ", Fdz)
+Fcz = Wt - Fdz
+print("Fcz: ", Fcz)
 
 
 
@@ -111,7 +121,7 @@ C = 3.25
 
 ## G
 
-## Y bending moment
+## bending moment
 
 Gy = A * Fay + C * Wr - B * Fby
 print("G Bending moment y: ", Gy)
@@ -119,6 +129,7 @@ Gz = A * Faz - C * Wt +B * Fbz
 print("G Bending moment z: ", Gz)
 Gm = math.sqrt(Gy ** 2 + Gz ** 2)
 print("G combined bending moment: ", Gm)
+
 
 
 
