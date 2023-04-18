@@ -245,8 +245,8 @@ def temperature_factor():
     return K_T
 
 def rim_thickness_factor():
-    t_R =               # look at fig
-    h_t =               # look at fig
+    t_R = None          # look at fig
+    h_t = None          # look at fig
     m_B = t_R / h_t     # backup ratio
     m_B = 1.2           # assuming this
     if m_B < 1.2:
