@@ -1,6 +1,6 @@
 import math
 
-def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
+def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S):
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
@@ -9,22 +9,22 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_an
     # N_cycle_G is the number of cycles for the gear
     # F is face width of narrow member
     # p_x is axial pitch
-    # d_P is pitch diameter of the pinion (in)
     # pt_angle is transverse pressure angle
     # N_G is number of teeth of gear
     # N_P is number of teeth of pinion
+    # d_P is pitch diameter of the pinion (in)
     # d_G is gear pitch diameter
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
 
 
-    K_o = overload_factor()                         # overload factor
-    K_v = dynamic_factor(V, Q_v)                    # dynamic factor
-    K_s = 1                                         # size factor
-    K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
-    K_B = rim_thickness_factor()                    # rim-thickness factor
-    J_P = pinion_bending_geometry_factor(p_x, F, N_P)             # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6
-    J_G = gear_bending_geometry_factor(p_x, F, N_G)
+    K_o = overload_factor()                                 # overload factor
+    K_v = dynamic_factor(V, Q_v)                            # dynamic factor
+    K_s = 1                                                 # size factor
+    K_m = load_distribution_factor(d_P, F, S)               # load-distribution factor
+    K_B = rim_thickness_factor()                            # rim-thickness factor
+    J_P = pinion_bending_geometry_factor(p_x, F, N_P)       # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
+    J_G = gear_bending_geometry_factor(p_x, F, N_G)         # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
 
 
 
@@ -51,18 +51,18 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_an
     C_H_P = pinion_hardness_ratio_factor()          # pinion hardness ratio factors for pitting resistance
 
     # AGMA bending stress factor of safety, a stress ratio
-    S_F_G = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_G)
-    S_F_P = bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)
+    S_F_G = bending_safety_factor_AGMA(S_t, Y_N_G, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_G)
+    S_F_P = bending_safety_factor_AGMA(S_t, Y_N_P, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)
 
 
     # AGMA wear/contact factor of safety, a stress ratio
-    S_H_G = contact_safety_factor_AGMA(S_c, Z_N, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
-    S_H_P = contact_safety_factor_AGMA(S_c, Z_N, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_G = contact_safety_factor_AGMA(S_c, Z_N_G, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    S_H_P = contact_safety_factor_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
 
     print("Stress and I")
     print(calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I))
     print(I)
-    print(Z_N)
+    #print(Z_N)
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
     # SCOTT, I replaced Y_N with Y_N_P and then added Y_N_G after that.
     # The new Y_N_P and Y_N_G take into account that the gear and pinion have different number of cycles.
@@ -75,7 +75,8 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_an
     # I have created Z_N_P and Z_N_G.
     # The return list has been updated from K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
     # to K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
-     
+    # You may have to update your arguments in your main function.
+
 def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     # W_t tangential transmitted load (lbf)
     # K_o is overload factor
@@ -379,7 +380,7 @@ def rim_thickness_factor():
 
 def bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     # S_t is bending strength (lbf/in^2)
-    # Y_N is bending stress cycle life factor
+    # Y_N is bending stress cycle life factor --- this will change with pinion and gear
     # K_T is temperature factor
     # K_R is reliability factor
     # W_t tangential transmitted load (lbf)
@@ -402,8 +403,8 @@ def bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K
 
 def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     # S_c is allowable contact stress (lbf/in^2)
-    # Z_N is wear/ contact stress cycle life factor
-    # C_H is hardness ratio factors for pitting resistance
+    # Z_N is wear/ contact stress cycle life factor --- this will change with pinion and gear
+    # C_H is hardness ratio factors for pitting resistance --- this will change with pinion and gear
     # K_T is temperature factor
     # K_R is reliability factor
     # C_p is elastic coefficient (sqrt(lbf/in^2))
@@ -509,18 +510,18 @@ def main():
 
 
     #define k value and helix and normal pressure angles for equations 13-22 and 13-23
-    k=1
+    k = 1
     helixAngle = 30
     normalPressureAngle = 20
 
 
     #equation 13-19 is used to find the transverse pressure angle
     transversePressureAngle =math.degrees(math.atan((math.tan(math.radians(normalPressureAngle))/math.cos(math.radians(helixAngle)))))
-    print("The transverse pressure angle is " +str(transversePressureAngle))
+    print("The transverse pressure angle is " + str(transversePressureAngle))
 
 
     #minimum number of teeth on the pinion is calculated from equation 13-22
-    minPinionTeeth = minimumNumberOfTeethOnPinion(m,k,helixAngle,transversePressureAngle)
+    minPinionTeeth = minimumNumberOfTeethOnPinion(m, k, helixAngle, transversePressureAngle)
     print("The minimum number of teeth allowable on the pinion is " + str(minPinionTeeth))
 
 
@@ -530,7 +531,7 @@ def main():
 
 
     #gear and pinion sizes are calculated using specified ratio
-    minPinionTeeth +=2
+    minPinionTeeth += 2
     numberOfPinionTeeth, numberOfGearTeeth = gearSizes(minPinionTeeth, maxGearTeeth, m)
     numberOfGearTeeth -= 0
 
@@ -558,7 +559,7 @@ def main():
     #transverse diametral pitch is calculated using equation 13-18
     normalDiametralPitch = 8
     transverseDiametralPitch = normalDiametralPitch * math.cos(math.radians(helixAngle))
-    print("Using a Normal pitch of " + str(normalDiametralPitch) +  " the Transverse diametral pitch is " + str(transverseDiametralPitch) + " teeth per inch")
+    print("Using a Normal pitch of " + str(normalDiametralPitch) + " the Transverse diametral pitch is " + str(transverseDiametralPitch) + " teeth per inch")
 
 
     #gear and pinion diameters are calculated using equation 13-1
@@ -583,6 +584,7 @@ def main():
     Q_V = 11
     F = 2
     S = 3.375
+    ### OLD ###
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
@@ -598,10 +600,33 @@ def main():
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
     # J is geometry factor for bending stress including root fillet stress concentration factor
+
+    ### NEW ###
+    # W_t is tangential transmitted load (lbf)
+    # Q_v is quality number of gears
+    # V is inline pitch velocity (ft/min)
+    # P_d is transverse diameteral pitch
+    # N_cycle_P is number of cycles for the pinion
+    # N_cycle_G is the number of cycles for the gear
+    # F is face width of narrow member
+    # p_x is axial pitch
+    # pt_angle is transverse pressure angle
+    # N_G is number of teeth of gear
+    # N_P is number of teeth of pinion
+    # d_P is pitch diameter of the pinion (in)
+    # d_G is gear pitch diameter
+    # P_n is normal diametrical pitch
+    # S is distance between center of bearings
+
     #coefficients for gear
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
             pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
             numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
+
+    # This is the new updated order of the AGMA coefficient arguements, and return
+    K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P\
+        = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
+
     print(S_F_G, S_F_P, S_H_G, S_H_P)
 
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(
