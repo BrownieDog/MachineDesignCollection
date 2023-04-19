@@ -1,0 +1,12 @@
+Shaft Dimensions:
+    Input shaft: 
+        The distance between N and O is equal to the distance between O and P
+        The distance between H and I is 0.25 in
+        The center keyway is FaceWidth-0.5 in wide (0.25 of padding on either end)(This number comes from the dimensions of the output shaft)
+    Both shafts:
+        The end keyway is 0.25 in wide and 0.25 in deep (OPEN TO SUGGESTIONS ON THIS ONE)
+        The center keyway is 0.25 in wide and 0.25 in deep (ALSO OPEN TO SUGGESTION)
+
+Face Width: 2 in (filler until final value availible)
+
+

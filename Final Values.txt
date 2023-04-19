@@ -14,7 +14,7 @@ transmitted load: 501.3231747118936 lbf
 
 to do
 we assumed induction hardened grade 1 but can use through hardened of either grade. adjust guess to ensure cheapest option
-fix issues to correctly calculate
+fix issues to correctly calculate J. for some reason its Mf is less than 2 causing the error if we change the face width any smaller
 
 
 Questions for elsworth
