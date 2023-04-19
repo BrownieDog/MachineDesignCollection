@@ -1,11 +1,12 @@
 import math
 
-def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
+def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
     # V is inline pitch velocity (ft/min)
     # P_d is transverse diameteral pitch
-    # N is number of cycles
+    # N_cycle_P is number of cycles for the pinion
+    # N_cycle_G is the number of cycles for the gear
     # F is face width of narrow member
     # p_x is axial pitch
     # d_P is pitch diameter of the pinion (in)
@@ -28,7 +29,10 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
 
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
-    Y_N = bending_stress_cycle_factor(N)            # Y_N is bending stress cycle life factor
+
+    Y_N_P = bending_stress_cycle_factor(N_cycle_P)  # Y_N is bending stress cycle life factor for the pinion
+    Y_N_G = bending_stress_cycle_factor(N_cycle_G)  # Y_N is bending stress cycle life factor for the gear
+
     K_T = temperature_factor()                      # temperature factor
     K_R = reliability_factor()                      # reliability factor
 
@@ -39,7 +43,10 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
 
 
     S_c = 170000    # guess                         # allowable contact stress (lbf/in^2) - Table 14-6, 14-7, and Fig 14-5
-    Z_N = contact_stress_cycle_factor(N)            # Z_N is wear/ contact stress cycle life factor
+
+    Z_N_P = contact_stress_cycle_factor(N_cycle_P)            # Z_N is wear/contact stress cycle life factor
+    Z_N_G = contact_stress_cycle_factor(N_cycle_G)            # Z_N is wear/contact stress cycle life factor
+
     C_H_G = gear_hardness_ratio_factor(N_G, N_P, d_G, d_P)       # gear hardness ratio factors for pitting resistance
     C_H_P = pinion_hardness_ratio_factor()          # pinion hardness ratio factors for pitting resistance
 
@@ -56,8 +63,19 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G,
     print(calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I))
     print(I)
     print(Z_N)
-    return K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
+    return K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
+    # SCOTT, I replaced Y_N with Y_N_P and then added Y_N_G after that.
+    # The new Y_N_P and Y_N_G take into account that the gear and pinion have different number of cycles.
+    # Consequently, I have added the variables into the AGMA coefficient arguments as N_cycle_P and N_cycle_G.
+    # Before the change, the arguments are W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S.
+    # Now, they are W_t, Q_v, V, P_d, d_P, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S.
+    # The list defining the arguments has been updated.
 
+    # Now, with the new cycle inputs, I have also updated the Z_N to accommodate the different number of cycles for the gear and pinion.
+    # I have created Z_N_P and Z_N_G.
+    # The return list has been updated from K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
+    # to K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
+     
 def calc_bending_stress_AGMA(W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     # W_t tangential transmitted load (lbf)
     # K_o is overload factor
@@ -282,7 +300,7 @@ def load_distribution_factor(d_P, F, S):
         print(":(")     # I am sad
 
     S_1 = 0             # centered
-
+    # since our straddle mounted pinion configuration is centered, S_1/S = 0, which is < 0.175
     if S_1 / S < 0.175:
         C_pm = 1
     elif S_1 / S >= 0.175:
