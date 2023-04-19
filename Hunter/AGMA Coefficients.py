@@ -175,6 +175,7 @@ def pinion_bending_geometry_factor(p_x, F, N_P):
     print("here")
     m_F = F / p_x       # unused now?
 
+    # J modifiers to find J
     if N_P <= 25:
         J_mod = 0.465           # Fig 14-7
     elif N_P <= 45:
@@ -186,6 +187,7 @@ def pinion_bending_geometry_factor(p_x, F, N_P):
     else:
         J_mod = 0.58            # Fig 14-7
 
+    # J factors to find J
     if N_P <= 25:
         J_factor = 0.945        # Fig 14-8
     elif N_P <= 40:
@@ -209,7 +211,7 @@ def gear_bending_geometry_factor(p_x, F, N_G):
     print(str(p_x) + "here")
     m_F = F / p_x   # unused now?
 
-    # J modifiers
+    # J modifiers to find J
     if N_G <= 25:
         J_mod = 0.465       # Fig 14-7
     elif N_G <= 45:
@@ -221,7 +223,7 @@ def gear_bending_geometry_factor(p_x, F, N_G):
     else:   # Fig 14-7
         J_mod = 0.58        # Fig 14-7
 
-    # J factors
+    # J factors to find J
     if N_G <= 25:
         J_factor = 0.945    # Fig 14-8
     elif N_G <= 40:
@@ -235,7 +237,7 @@ def gear_bending_geometry_factor(p_x, F, N_G):
     else:
         J_factor = 1.0275   # Fig 14-8
 
-    J_G = J_mod * J_factor
+    J_G = J_mod * J_factor  # gear geometry bending factor
     return J_G
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
