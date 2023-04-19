@@ -173,40 +173,33 @@ def pinion_bending_geometry_factor(p_x, F, N_P):
     # N_P is number of teeth in the pinion
     print(p_x)
     print("here")
-    m_F = F / p_x
+    m_F = F / p_x       # unused now?
 
-    if m_F >= 2:
-        # J_mod = None            # Fig 14-7
-        # J_factor = None       # Fig 14-8
-
-        if N_P <= 25:
-            J_mod = 0.465
-        elif N_P <= 45:
-            J_mod = 0.5
-        elif N_P <= 105:
-            J_mod = 0.54
-        elif N_P <= 325:
-            J_mod = 0.565
-        else:
-            J_mod = 0.58
-
-        if N_P <= 25:
-            J_factor = 0.945
-        elif N_P <= 40:
-            J_factor = 0.965
-        elif N_P <= 62:
-            J_factor = 0.99
-        elif N_P <= 112:
-            J_factor = 1.0
-        elif N_P <= 325:
-            J_factor = 1.015
-        else:
-            J_factor = 1.0275
-
+    if N_P <= 25:
+        J_mod = 0.465           # Fig 14-7
+    elif N_P <= 45:
+        J_mod = 0.5             # Fig 14-7
+    elif N_P <= 105:
+        J_mod = 0.54            # Fig 14-7
+    elif N_P <= 325:
+        J_mod = 0.565           # Fig 14-7
     else:
-        print(":(")
+        J_mod = 0.58            # Fig 14-7
 
-    J_P = J_mod * J_factor
+    if N_P <= 25:
+        J_factor = 0.945        # Fig 14-8
+    elif N_P <= 40:
+        J_factor = 0.965        # Fig 14-8
+    elif N_P <= 62:
+        J_factor = 0.99         # Fig 14-8
+    elif N_P <= 112:
+        J_factor = 1.0          # Fig 14-8
+    elif N_P <= 325:
+        J_factor = 1.015        # Fig 14-8
+    else:
+        J_factor = 1.0275       # Fig 14-8
+
+    J_P = J_mod * J_factor      # pinion geometry bending factor
     return J_P
 
 def gear_bending_geometry_factor(p_x, F, N_G):
@@ -214,37 +207,33 @@ def gear_bending_geometry_factor(p_x, F, N_G):
     # F is narrow face width
     # N_G is number of teeth in the gear
     print(str(p_x) + "here")
-    m_F = F / p_x
+    m_F = F / p_x   # unused now?
 
-    if m_F >= 2:
-        # J_mod = None            # Fig 14-7
-        # J_factor = None       # Fig 14-8
-        if N_G <= 25:
-            J_mod = 0.465
-        elif N_G <= 45:
-            J_mod = 0.5
-        elif N_G <= 105:
-            J_mod = 0.54
-        elif N_G <= 325:
-            J_mod = 0.565
-        else:
-            J_mod = 0.58
+    # J modifiers
+    if N_G <= 25:
+        J_mod = 0.465       # Fig 14-7
+    elif N_G <= 45:
+        J_mod = 0.5         # Fig 14-7
+    elif N_G <= 105:
+        J_mod = 0.54        # Fig 14-7
+    elif N_G <= 325:
+        J_mod = 0.565       # Fig 14-7
+    else:   # Fig 14-7
+        J_mod = 0.58        # Fig 14-7
 
-        if N_G <= 25:
-            J_factor = 0.945
-        elif N_G <= 40:
-            J_factor = 0.965
-        elif N_G <= 62:
-            J_factor = 0.99
-        elif N_G <= 112:
-            J_factor = 1.0
-        elif N_G <= 325:
-            J_factor = 1.015
-        else:
-            J_factor = 1.0275
-
+    # J factors
+    if N_G <= 25:
+        J_factor = 0.945    # Fig 14-8
+    elif N_G <= 40:
+        J_factor = 0.965    # Fig 14-8
+    elif N_G <= 62:
+        J_factor = 0.99     # Fig 14-8
+    elif N_G <= 112:
+        J_factor = 1.0      # Fig 14-8
+    elif N_G <= 325:
+        J_factor = 1.015    # Fig 14-8
     else:
-        print(":(")
+        J_factor = 1.0275   # Fig 14-8
 
     J_G = J_mod * J_factor
     return J_G
