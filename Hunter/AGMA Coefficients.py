@@ -18,13 +18,13 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     # S is distance between center of bearings
 
 
-    K_o = overload_factor()                                 # overload factor
-    K_v = dynamic_factor(V, Q_v)                            # dynamic factor
-    K_s = 1                                                 # size factor
-    K_m = load_distribution_factor(d_P, F, S)               # load-distribution factor
-    K_B = rim_thickness_factor()                            # rim-thickness factor
-    J_P = pinion_bending_geometry_factor(p_x, F, N_P)       # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
-    J_G = gear_bending_geometry_factor(p_x, F, N_G)         # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
+    K_o = overload_factor()                         # overload factor
+    K_v = dynamic_factor(V, Q_v)                    # dynamic factor
+    K_s = 1                                         # size factor
+    K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
+    K_B = rim_thickness_factor()                    # rim-thickness factor
+    J_P = bending_geometry_factor(p_x, F, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
+    J_G = bending_geometry_factor(p_x, F, N_G)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
 
 
 
@@ -186,78 +186,42 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
 
     return I_ext                    # external gear
 
-def pinion_bending_geometry_factor(p_x, F, N_P):
+def bending_geometry_factor(p_x, F, N_teeth):
     # p_x is axial pitch
     # F is narrow face width
-    # N_P is number of teeth in the pinion
+    # N_teeth is number of teeth
     print(p_x)
     print("here")
     m_F = F / p_x       # unused now?
 
     # J modifiers to find J
-    if N_P <= 25:
+    if N_teeth <= 25:
         J_mod = 0.465           # Fig 14-7
-    elif N_P <= 45:
+    elif N_teeth <= 45:
         J_mod = 0.5             # Fig 14-7
-    elif N_P <= 105:
+    elif N_teeth <= 105:
         J_mod = 0.54            # Fig 14-7
-    elif N_P <= 325:
+    elif N_teeth <= 325:
         J_mod = 0.565           # Fig 14-7
     else:
         J_mod = 0.58            # Fig 14-7
 
     # J factors to find J
-    if N_P <= 25:
+    if N_teeth <= 25:
         J_factor = 0.945        # Fig 14-8
-    elif N_P <= 40:
+    elif N_teeth <= 40:
         J_factor = 0.965        # Fig 14-8
-    elif N_P <= 62:
+    elif N_teeth <= 62:
         J_factor = 0.99         # Fig 14-8
-    elif N_P <= 112:
+    elif N_teeth <= 112:
         J_factor = 1.0          # Fig 14-8
-    elif N_P <= 325:
+    elif N_teeth <= 325:
         J_factor = 1.015        # Fig 14-8
     else:
         J_factor = 1.0275       # Fig 14-8
 
-    J_P = J_mod * J_factor      # pinion geometry bending factor
+    J_P = J_mod * J_factor      # geometry bending factor
     return J_P
-
-def gear_bending_geometry_factor(p_x, F, N_G):
-    # p_x is axial pitch
-    # F is narrow face width
-    # N_G is number of teeth in the gear
-    print(str(p_x) + "here")
-    m_F = F / p_x   # unused now?
-
-    # J modifiers to find J
-    if N_G <= 25:
-        J_mod = 0.465       # Fig 14-7
-    elif N_G <= 45:
-        J_mod = 0.5         # Fig 14-7
-    elif N_G <= 105:
-        J_mod = 0.54        # Fig 14-7
-    elif N_G <= 325:
-        J_mod = 0.565       # Fig 14-7
-    else:   # Fig 14-7
-        J_mod = 0.58        # Fig 14-7
-
-    # J factors to find J
-    if N_G <= 25:
-        J_factor = 0.945    # Fig 14-8
-    elif N_G <= 40:
-        J_factor = 0.965    # Fig 14-8
-    elif N_G <= 62:
-        J_factor = 0.99     # Fig 14-8
-    elif N_G <= 112:
-        J_factor = 1.0      # Fig 14-8
-    elif N_G <= 325:
-        J_factor = 1.015    # Fig 14-8
-    else:
-        J_factor = 1.0275   # Fig 14-8
-
-    J_G = J_mod * J_factor  # gear geometry bending factor
-    return J_G
 
 def elastic_coefficient():  # Eq. 14-12 or Table 14-8
     v_P = 0.3               # pinion Poisson's ratio
