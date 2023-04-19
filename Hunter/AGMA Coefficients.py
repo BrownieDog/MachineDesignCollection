@@ -20,7 +20,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
 
     K_o = overload_factor()                         # overload factor
     K_v = dynamic_factor(V, Q_v)                    # dynamic factor
-    K_s = 1                                         # size factor
+    K_s = size_factor()                             # size factor
     K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
     K_B = rim_thickness_factor()                    # rim-thickness factor
     J_P = bending_geometry_factor(p_x, F, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
@@ -37,7 +37,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     K_R = reliability_factor()                      # reliability factor
 
     C_p = elastic_coefficient()                     # elastic coefficient (sqrt(lbf/in^2))
-    C_f = 1                      # surface condition factor
+    C_f = surface_condition_factor()                # surface condition factor
     I = contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n)  # I is contact geometry factor for pitting resistance
 
 
@@ -330,6 +330,14 @@ def reliability_factor():
 def temperature_factor():
     K_T = 1     # for temp up to 250 F                  # temperature factor
     return K_T
+
+def size_factor():
+    K_s = 1                                             # size factor
+    return K_s
+
+def surface_condition_factor():
+    C_f = 1                                             # surface condition factor
+    return C_f
 
 def rim_thickness_factor():
     t_R = None          # look at fig
