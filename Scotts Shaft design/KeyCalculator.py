@@ -19,13 +19,13 @@ print(T_output)
 
 #the input and output shaft diameters at the gears are listed below
 #once the shaft sizes are determined update these
-D_input = 1
-D_output = 1
+D_input = 1.5
+D_output = 1.25
 
 #from table 7-6 the key sizes are determined and listed below. the keys are square keys
 #once the shaft sizes are determined update these
-t_Input = 0.1
-t_Output = 0.1
+t_Input = 5/16
+t_Output = 1/4
 
 #the key material is 1006 HR steel, with Sy = 24 ksi
 Sy = 24 * 10**3
