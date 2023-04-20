@@ -40,7 +40,7 @@ Fbz = 1.875*Wt/3.75
 Fay = -(Wr-Fby)
 Faz = Wt-Fbz
 
-Fdy = (1.875*Wr+(dp/2)*Wa)/3.75
+Fdy = (1.875*Wr-(dp/2)*Wa)/3.75
 Fdz = 1.875*Wt/3.75
 
 Fcx = Wa
@@ -139,19 +139,19 @@ s_m = 0
 a_t = 0
 
 ## Point G
-
-xi = J
-S_F_goodman = 0
-S_F_conservative = 0
-d = .2
-while S_F_goodman < 1.5 or S_F_conservative < 1.5:
-    a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
-    s_t = InputPointTorque(xi,Hlb,Ohi)
-    print("\ns_t: ", s_t)
-    print("a_m", a_m)
-    print("diameter: ", d)
-    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
-    d += .001
+#
+#xi = J
+#S_F_goodman = 0
+#S_F_conservative = 0
+#d = .2
+#while S_F_goodman < 1.5 or S_F_conservative < 1.5:
+#    a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
+#    s_t = InputPointTorque(xi,Hlb,Ohi)
+#    print("\ns_t: ", s_t)
+#    print("a_m", a_m)
+#    print("diameter: ", d)
+#    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
+#    d += .001
 
 
 
