@@ -251,10 +251,10 @@ def main(d, a_m, a_t, s_m, s_t, geometry="input geometry"):
         K_t, K_ts, r_notch = end_mill_keyseat(d)
         print(f"For end-mill keyseat, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-    elif geometry == "retaining"
+    elif geometry == "retaining":
         K_t, K_ts, r_notch = retaining_ring_groove()
         print(f"For retaining ring groove, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}")
-        
+
     else:
         print(f"Please input a valid geometry")
 
