@@ -12,23 +12,28 @@ def shoulder_fillet_sharp(d):   # Table 7-1
 def shoulder_fillet_round(d):   # Table 7-1
     # d is diameter of shaft section
 
-    r_notch = d * 0.02    # notch radius
-    K_t = 1.7       # K_t for bending
-    K_ts = 1.5      # K_ts for shear
-    return K_t, K_ts, r_notch
-
-def retaining_ring_groove():   # Table 7-1
-    r_notch = 0.01        # notch radius
-    K_t = 5.0       # K_t for bending
-    K_ts = 3.0      # K_ts for shear
+    r_notch = d * 0.01  # notch radius
+    K_t = 1.7           # K_t for bending
+    K_ts = 1.5          # K_ts for shear
     return K_t, K_ts, r_notch
 
 def end_mill_keyseat(d):   # Table 7-1
     # d is diameter of shaft section
 
-    r_notch = d * 0.02    # notch radius
-    K_t = 2.14      # K_t for bending
-    K_ts = 3.0      # K_ts for shear
+    r_notch = d * 0.02  # notch radius
+    K_t = 2.14          # K_t for bending
+    K_ts = 3.0          # K_ts for shear
+    return K_t, K_ts, r_notch
+
+def sled_runner_keyseat():
+    K_t = 1.7           # K_t for bending
+    K_ts = 1            # K_ts for shear
+    return K_t, K_ts
+
+def retaining_ring_groove():   # Table 7-1
+    r_notch = 0.01      # notch radius
+    K_t = 5.0           # K_t for bending
+    K_ts = 3.0          # K_ts for shear
     return K_t, K_ts, r_notch
 
 def specimen_endurance_limit(ult):      # Eqn 6-10      # rotary-beam test specimen endurance limit
