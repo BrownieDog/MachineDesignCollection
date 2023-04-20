@@ -14,7 +14,9 @@ psi = math.radians(30) ## helix angle
 phin = math.radians(20) ## Normal pressure angle
 phit = (math.atan(tan(phin)/cos(psi)))
 
-H = 550*hp*60/(2*math.pi)
+face = 1
+
+H = 550*hp*60*12/(2*math.pi)
 Ti = H/Ohi
 To = H/Oho
 
@@ -45,6 +47,11 @@ Fcx = Wa
 Fcy = (Wr-Fdy)
 Fcz = Wt-Fdz
 
+print("gear forces")
+print("Wt: ", Wt)
+print("Wr: ", Wr)
+print("Wa: ", Wa)
+
 print("Input shaft")
 print("Fay: ", Fay)
 print("Faz: ", Faz)
@@ -61,45 +68,84 @@ print("Fdz: ", Fdz)
 
 
 
-def InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg):
-    A = 3.325
+def InputPointMoments(xi, Fay, Wr, Wa, Faz, Wt, dg):
+    A = 3.375
     E = 5.25
-    if (x-A) > 0:
-        if (x-E) > 0:
-            My = (x-A) * Fay + (x-E) * Wr - (dg/2) * Wa
-            Mz = (x-A) * Faz - (x-E) * Wt
-            M = math.sqrt(My ** 2 + Mz ** 2)
+    if (xi-A) > 0:
+        if (xi-E) > 0:
+            My = (xi-A) * Fay + (xi-E) * Wr - (dg/2) * Wa
+            Mz = (xi-A) * Faz - (xi-E) * Wt
+            a_m = math.sqrt(My ** 2 + Mz ** 2)
         else:
-            My = (x-A) * Fay
-            Mz = (x-A) * Faz
-            M = math.sqrt(My ** 2 + Mz ** 2)
-    return M
+            My = (xi-A) * Fay
+            Mz = (xi-A) * Faz
+            a_m = math.sqrt(My ** 2 + Mz ** 2)
+    else: a_m = 0
+    return a_m
 
-def OutputPointMoments(x,Fdy,Wr,Wa,Fdz,Wt, dp):
+def OutputPointMoments(xo,Fdy,Wr,Wa,Fdz,Wt, dp):
     D = .5+.75+3+.325
     F = 3.25
-    if (D-x) > 0:
-        if (F-x) > 0:
-            My = (D-x) * Fdy - (F-x) * Wr - (dp/2) * Wa
-            Mz = (D-x) * Fdz - (F-x) * Wt
+    if (D-xo) > 0:
+        if (F-xo) > 0:
+            My = (D-xo) * Fdy - (F-xo) * Wr - (dp/2) * Wa
+            Mz = (D-xo) * Fdz - (F-xo) * Wt
             M = math.sqrt(My ** 2 + Mz ** 2)
         else:
-            My = (D-x) * Fdy
-            Mz = (D-x) * Fdz
+            My = (D-xo) * Fdy
+            Mz = (D-xo) * Fdz
             M = math.sqrt(My ** 2 + Mz ** 2)
+    else: M = 0
     return M
-def InputPointTorque(x,H,Ohi):
-    if (x > 1) and (x < 4.5):
+def InputPointTorque(xi,H,Ohi):
+    if (xi > 1) and (xi < 4.5):
         T = H/Ohi
     else:
         T = 0
     return T
 
-def OuputPointTorque(x,H,Oho):
-    if x > 2.75 and x <
+def OutputPointTorque(xo,H,Oho):
+    if xo > 2.75 and xo < 7:
         T = H/Oho
     else:
         T = 0
     return T
+
+## input shaft points
+G = 2
+H = 2.75
+I = 3
+J = 3.75
+L = 3.75+((3-face)/2)
+K = L-.25
+M = L+.25
+N = L + face
+O = N + .25
+P = 6.75
+
+## output shaft points
+Q = 1.25
+S = 1.25+((3-face)/2)
+R = S-.25
+U = S + face
+T = U - .25
+V = U + .25
+W = 3+.75+.5
+X = W + .75
+Y = X + .25
+Z = X + 1
+
+
+## Point G
+
+xi = G
+
+a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(xi,H,Ohi)
+print("\nTi: ", Ti)
+print("a_m", a_m)
+
+
+
 
 

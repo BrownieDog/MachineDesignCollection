@@ -44,7 +44,7 @@ def specimen_endurance_limit(ult):      # Eqn 6-10      # rotary-beam test speci
     elif ult > 200:         # ksi
         s_ei = 100          # ksi
     else:
-        print(f"ult is out of range")
+        print("ult is out of range")
     return s_ei
 
 # find coefficients of endurance limit
