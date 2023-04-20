@@ -156,7 +156,7 @@ def alternating_stress(K_f, K_fs, a_m, a_t, d):
     # d is diameter of shaft section
 
     a_norm = ((32 * K_f * a_m) / (math.pi * (d ** 3)))
-    a_shear = (3 * (16 * K_fs * a_t) / (math.pi * (d ** 3)))
+    a_shear = ((16 * K_fs * a_t) / (math.pi * (d ** 3)))
     return a_norm, a_shear
 
 def steady_stress(K_f, K_fs, s_m, s_t, d):

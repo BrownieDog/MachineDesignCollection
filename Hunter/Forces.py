@@ -16,9 +16,9 @@ phit = (math.atan(tan(phin)/cos(psi)))
 
 face = 1
 
-H = 550*hp*60*12/(2*math.pi)
-Ti = H/Ohi
-To = H/Oho
+Hlb = 550*hp*60*12/(2*math.pi)
+Ti = Hlb/Ohi
+To = Hlb/Oho
 
 dg = 5.629165124598851
 dp = 1.8763883748662835
@@ -97,16 +97,16 @@ def OutputPointMoments(xo,Fdy,Wr,Wa,Fdz,Wt, dp):
             M = math.sqrt(My ** 2 + Mz ** 2)
     else: M = 0
     return M
-def InputPointTorque(xi,H,Ohi):
+def InputPointTorque(xi,Hlb,Ohi):
     if (xi > 1) and (xi < 4.5):
-        T = H/Ohi
+        T = Hlb/Ohi
     else:
         T = 0
     return T
 
-def OutputPointTorque(xo,H,Oho):
+def OutputPointTorque(xo,Hlb,Oho):
     if xo > 2.75 and xo < 7:
-        T = H/Oho
+        T = Hlb/Oho
     else:
         T = 0
     return T
@@ -146,12 +146,12 @@ S_F_conservative = 0
 d = .2
 while S_F_goodman < 1.5 or S_F_conservative < 1.5:
     a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
-    s_t = InputPointTorque(xi,H,Ohi)
-    print("\nTi: ", Ti)
+    s_t = InputPointTorque(xi,Hlb,Ohi)
+    print("\ns_t: ", s_t)
     print("a_m", a_m)
     print("diameter: ", d)
     S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
-    d += .1
+    d += .001
 
 
 
