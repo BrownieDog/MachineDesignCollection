@@ -7,7 +7,7 @@ def shoulder_fillet_sharp(d):   # Table 7-1
     r_notch = d * 0.02    # notch radius
     K_t = 2.7       # K_t for bending
     K_ts = 2.2      # K_ts for shear
-    return K_t, K_ts
+    return K_t, K_ts, r_notch
 
 def shoulder_fillet_round(d):   # Table 7-1
     # d is diameter of shaft section
@@ -15,13 +15,13 @@ def shoulder_fillet_round(d):   # Table 7-1
     r_notch = d * 0.02    # notch radius
     K_t = 1.7       # K_t for bending
     K_ts = 1.5      # K_ts for shear
-    return K_t, K_ts
+    return K_t, K_ts, r_notch
 
 def retaining_ring_groove():   # Table 7-1
     r_notch = 0.01        # notch radius
     K_t = 5.0       # K_t for bending
     K_ts = 3.0      # K_ts for shear
-    return K_t, K_ts
+    return K_t, K_ts, r_notch
 
 def end_mill_keyseat(d):   # Table 7-1
     # d is diameter of shaft section
@@ -29,7 +29,7 @@ def end_mill_keyseat(d):   # Table 7-1
     r_notch = d * 0.02    # notch radius
     K_t = 2.14      # K_t for bending
     K_ts = 3.0      # K_ts for shear
-    return K_t, K_ts
+    return K_t, K_ts, r_notch
 
 def specimen_endurance_limit(ult):      # Eqn 6-10      # rotary-beam test specimen endurance limit
     # ult is ultimate tensile strength
@@ -68,9 +68,9 @@ def loading_factor():       # k_c - load factor
     k_c = 1  # combined loading with von mises stress calculations
     return k_c
 
-def modifying_factors():
-    k_a = surface_factor()      # surface factor
-    k_b = size_factor()         # size factor
+def modifying_factors(ult):
+    k_a = surface_factor(ult)      # surface factor
+    k_b = size_factor(ult)         # size factor
     k_c = loading_factor()      # loading factor
     k_d = 1                     # temperature factor
     k_e = 1                     # reliability factor
@@ -80,7 +80,7 @@ def modifying_factors():
 def endurance_limit(ult):
     # ult is ultimate tensile strength
 
-    k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors()
+    k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors(ult)
     s_ei = specimen_endurance_limit(ult)
 
     s_e = k_a * k_b * k_c * k_d * k_e * k_f * s_ei      # endurance limit
