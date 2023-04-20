@@ -25,11 +25,6 @@ def end_mill_keyseat(d):   # Table 7-1
     K_ts = 3.0          # K_ts for shear
     return K_t, K_ts, r_notch
 
-def sled_runner_keyseat():
-    K_t = 1.7           # K_t for bending
-    K_ts = 1            # K_ts for shear
-    return K_t, K_ts
-
 def retaining_ring_groove():   # Table 7-1
     r_notch = 0.01      # notch radius
     K_t = 5.0           # K_t for bending
@@ -44,7 +39,7 @@ def specimen_endurance_limit(ult):      # Eqn 6-10      # rotary-beam test speci
     elif ult > 200:         # ksi
         s_ei = 100          # ksi
     else:
-        print(f"ult is out of range")
+        print("ult is out of range")
     return s_ei
 
 # find coefficients of endurance limit
@@ -73,13 +68,25 @@ def loading_factor():       # k_c - load factor
     k_c = 1  # combined loading with von mises stress calculations
     return k_c
 
+def temperature_factor():
+    k_d = 1  # temperature factor
+    return k_d
+
+def reliability_factor():
+    k_e = 1  # reliability factor
+    return k_e
+
+def miscellaneous_factor():
+    k_f = 1  # miscellaneous factor
+    return k_f
+
 def modifying_factors(ult):
     k_a = surface_factor(ult)      # surface factor
     k_b = size_factor(ult)         # size factor
     k_c = loading_factor()      # loading factor
-    k_d = 1                     # temperature factor
-    k_e = 1                     # reliability factor
-    k_f = 1                     # miscellaneous factor
+    k_d = temperature_factor()                     # temperature factor
+    k_e = reliability_factor()                     # reliability factor
+    k_f = miscellaneous_factor()                     # miscellaneous factor
     return k_a, k_b, k_c, k_d, k_e, k_f
 
 def endurance_limit(ult):
@@ -140,13 +147,6 @@ def material_properties():
     s_y = 37.5      # ksi   yield strength
     return ult, s_y
 
-def alternating_load():
-    alternating_moment = 0
-    alternating_torque = 0
-
-def steady_load():
-    steady_moment = 0
-    steady_torque = 0
 
 def alternating_stress(K_f, K_fs, a_m, a_t, d):
     # K_f is fatigue bending stress concentration factor
@@ -229,111 +229,47 @@ def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
     S_F_conservative = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
     return S_F_conservative
 
-def shear_diagram(f):
+def main(d, a_m, a_t, s_m, s_t, geometry="input geometry"):
+    ult, s_y = material_properties()
 
-    # analysis point: g, h, i, j, k, l, m, n, o, p
-    return
+    if geometry == "sharp":         # sharp shoulder fillet
+        K_t, K_ts, r_notch = shoulder_fillet_sharp(d)
+        print(f"For sharp shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-class AnalysisPoint():
-    def __init__(self, x, f, d, geometry):
-        self.x = x
-        self.f = f
-        self.d = d
-        self.geometry = geometry
+    elif geometry == "round":       # round shoulder fillet
+        K_t, K_ts, r_notch = shoulder_fillet_round(d)
+        print(f"For round shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
+    elif geometry == "keyseat":     # end mill keyseat
+        K_t, K_ts, r_notch = end_mill_keyseat(d)
+        print(f"For end-mill keyseat, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-def find_shear_and_moment_values():
-    analysis_point_input_list = analysis_point_input()          # list of the analysis points for the input shaft
-    analysis_point_output_list = analysis_point_output()        # list of the analysis points for the output shaft
+    elif geometry == "retaining":
+        K_t, K_ts, r_notch = retaining_ring_groove()
+        print(f"For retaining ring groove, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}")
 
-    analysis_point = analysis_point_input_list
-    analysis_point = analysis_point_output_list
+    else:
+        print(f"Please input a valid geometry")
 
-    # initialize shear and moment lists
-    shear_force = []
-    bending_moment =[]
+    # this will vary on geometry!
+    K_f, q, K_fs, q_shear = fatigue_factor(K_t, K_ts, r_notch, ult)
+    print(f"K_f = {K_f}, q = {q}, K_fs = {K_fs}, q_shear = {q_shear}, where K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, and ult = {ult}")
 
-    for i in range(0, len(analysis_point)):                 # analysis point object for the input and output shafts are
-                                                            # created below. Since they are the same length, we can use
-                                                            # either; however, I don't know how to adjust if they were
-                                                            # different lengths
-        point = analysis_point[i]   # loop through the analysis point list
+    # this will vary on geometry!
+    a_norm, a_shear = alternating_stress(K_f, K_fs, a_m, a_t, d)
+    print(f"a_norm = {a_norm}, a_shear = {a_shear}, where K_f = {K_f}, K_fs = {K_fs}, a_m = {a_m}, a_t = {a_t}, d = {d}")
 
-        if point.x == 0:
-            shear_force = point.f   # appending the shear force list with the force value at the specific point of interest
-            bending_moment = 0      # bending moment at x = 0
+    # this will vary on geometry!
+    s_norm, s_shear = steady_stress(K_f, K_fs, s_m, s_t, d)
+    print(f"s_norm = {s_norm}, s_shear = {s_shear}, where K_f = {K_f}, K_fs = {K_fs}, s_m = {s_m}, s_t = {s_t}, d = {d}")
 
-            new_shear = shear_force
-            new_moment  = bending_moment
-            new_location = point.x
+    # this will vary on geometry!
+    S_F_goodman = goodman_fatigue_safety_factor(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult)
+    print(f"S_F_goodman = {S_F_goodman}, where K_f = {K_f}, K_fs = {K_fs}, a_m = {a_m}, a_t = {a_t}, s_m = {s_m}, s_t = {s_t} d = {d}, ult = {ult}")
 
-        else:
-            old_shear = new_shear
-            old_moment = new_moment
+    # this will vary on geometry!
+    S_F_conservative = first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y)
+    print(f"S_F_conservative = {S_F_conservative}, where K_f = {K_f}, K_fs = {K_fs}, a_m = {a_m}, a_t = {a_t}, s_m = {s_m}, s_t = {s_t} d = {d}, s_y = {s_y}")
 
-            old_location = new_location
-            new_location point.x
-            moment_distance = new_location - old_location
+    return S_F_goodman, S_F_conservative
 
-            shear_force =old_shear + point.f
-            bending_moment = old_moment + (point.f * moment_distance)
-
-def input_shaft_diameters():
-    di_1 =
-    di_2 =
-    di_3 =
-    di_4 =
-    di_5 =
-    di_6 =
-    di_7 =
-    return di_1, di_2, di_3, di_4, di_5, di_6, di_7
-
-def output_shaft_diameters():
-    do_1 =
-    do_2 =
-    do_3 =
-    do_4 =
-    do_5 =
-    do_6 =
-    do_7 =
-    return do_1, do_2, do_3, do_4, do_5, do_6, do_7
-
-def analysis_point_input():
-    di_1, di_2, di_3, di_4, di_5, di_6, di_7 = input_shaft_diameters()
-
-    point_start_input = AnalysisPoint(x = 0, f = f, d = di_1,geometry = )
-    point_g = AnalysisPoint(x = 2, f = , d = di_1, geometry = keyway)
-    point_h = AnalysisPoint(x = 2.75, f = , d = , geometry = )
-    point_i = AnalysisPoint(x = 3, f = , d = , geometry = clip)
-    point_j = AnalysisPoint(x = 3.75, f = , d = , geometry = )
-    point_k = AnalysisPoint(x = , f = , d = , geometry = )
-    point_l = AnalysisPoint(x = , f = , d = , geometry = )
-    point_m = AnalysisPoint(x = , f = , d = , geometry = )
-    point_n = AnalysisPoint(x = , f = , d = , geometry = )
-    point_o = AnalysisPoint(x = , f = , d = , geometry = )
-    point_p = AnalysisPoint(x = 6.75, f = , d = , geometry = )
-    point_end_input = AnalysisPoint(x = 8, f = , d = , geometry = )
-
-    analysis_point_input = [point_start_input, point_g, point_h, point_i, point_j, point_k, point_l, point_m, point_n,
-                            point_o, point_p, point_end_input]
-    return analysis_point_input
-
-def analysis_point_output():
-    do_1, do_2, do_3, do_4, do_5, do_6, do_7 = output_shaft_diameters()
-
-    point_start_output = AnalysisPoint(x = 0, f = , d = , geometry = )
-    point_q = AnalysisPoint(x = 2, f = , d = , geometry = keyway)
-    point_r = AnalysisPoint(x = 2.75, f = , d = , geometry = )
-    point_s = AnalysisPoint(x = 3, f = , d = , geometry = clip)
-    point_t = AnalysisPoint(x = 3.75, f = , d = , geometry = )
-    point_u = AnalysisPoint(x = , f = , d = , geometry = )
-    point_v = AnalysisPoint(x = , f = , d = , geometry = )
-    point_w = AnalysisPoint(x = , f = , d = , geometry = )
-    point_x = AnalysisPoint(x = , f = , d = , geometry = )
-    point_y = AnalysisPoint(x = , f = , d = , geometry = )
-    point_z = AnalysisPoint(x = 6.75, f = , d = do_7, geometry = )
-    point_end_output = AnalysisPoint(x = 8, f = , d = do_7, geometry = )
-
-    analysis_point_input = [point_start_output, point_q, point_r, point_s, point_t, point_u, point_v, point_w, point_x,
-                            point_y, point_z, point_end_output]
-    return analysis_point_input
