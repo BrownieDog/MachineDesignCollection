@@ -213,7 +213,7 @@ def first_cycle_yield_vm(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):        # checki
     # s_m is steady moment
     # s_t is steady torque
     # d is diameter of shaft section
-    # s_y is yield strength
+    # s_y is yield strength 
 
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
 
