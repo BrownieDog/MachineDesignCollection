@@ -205,24 +205,6 @@ def goodman_fatigue_safety_factor(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
     S_F_goodman = 1 / goodman_coeff * (goodman_a + goodman_s)
     return S_F_goodman
 
-def first_cycle_yield_vm(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):        # checking 1st cycle yield with Von Mises
-    # K_f is fatigue bending stress concentration factor
-    # K_fs is fatigue shear stress concentration factor
-    # a_m is alternating moment
-    # a_t is alternating torque
-    # s_m is steady moment
-    # s_t is steady torque
-    # d is diameter of shaft section
-    # s_y is yield strength 
-
-    a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
-
-    tot_norm = a_norm + s_norm          # total normal stress
-    tot_shear = a_shear + s_shear       # total shear stress
-    max_vm = math.sqrt((tot_norm ** 2) + (3 * (tot_shear ** 2)))        # vm stress
-    n_vm = (s_y * 1000) / max_vm        # safety factor against first cycle yield using vm
-    return n_vm
-
 def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
     # K_f is fatigue bending stress concentration factor
     # K_fs is fatigue shear stress concentration factor
