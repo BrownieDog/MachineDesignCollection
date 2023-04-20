@@ -54,7 +54,7 @@ def surface_factor(ult):                # Table 6-2 for machined surface in ksi
 
 def size_factor(d):         # Eqn 6-19
     # d is diameter of shaft section
-
+    print("diameter: ", d)
     # for rotating round specimens in bending
     if 0.11 <= d <= 2:  # inch
         k_b = 0.879 * (d ** -0.107)  # inch
@@ -80,19 +80,19 @@ def miscellaneous_factor():
     k_f = 1  # miscellaneous factor
     return k_f
 
-def modifying_factors(ult):
+def modifying_factors(ult,d):
     k_a = surface_factor(ult)      # surface factor
-    k_b = size_factor(ult)         # size factor
+    k_b = size_factor(d)         # size factor
     k_c = loading_factor()      # loading factor
     k_d = temperature_factor()                     # temperature factor
     k_e = reliability_factor()                     # reliability factor
     k_f = miscellaneous_factor()                     # miscellaneous factor
     return k_a, k_b, k_c, k_d, k_e, k_f
 
-def endurance_limit(ult):
+def endurance_limit(ult,d):
     # ult is ultimate tensile strength
 
-    k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors(ult)
+    k_a, k_b, k_c, k_d, k_e, k_f = modifying_factors(ult,d)
     s_ei = specimen_endurance_limit(ult)
 
     s_e = k_a * k_b * k_c * k_d * k_e * k_f * s_ei      # endurance limit
@@ -195,7 +195,7 @@ def goodman_fatigue_safety_factor(K_f, K_fs, a_m, a_t, s_m, s_t, d, ult):
 
     a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
 
-    s_e = endurance_limit(ult)
+    s_e = endurance_limit(ult,d)
 
     goodman_a_m = 4 * ((K_f * a_m) ** 2)        # alternating moment goodman
     goodman_a_t = 3 * ((K_fs * a_t) ** 2)       # alternating torque goodman

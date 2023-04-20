@@ -140,18 +140,19 @@ a_t = 0
 
 ## Point G
 
-xi = G
+xi = J
 S_F_goodman = 0
 S_F_conservative = 0
 d = .2
-while S_F_goodman < 1.5 and S_F_conservative < 1.5:
+while S_F_goodman < 1.5 or S_F_conservative < 1.5:
     a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
     s_t = InputPointTorque(xi,H,Ohi)
     print("\nTi: ", Ti)
     print("a_m", a_m)
-    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "keyseat")
-    d +=.1
     print("diameter: ", d)
+    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
+    d += .1
+
 
 
 
