@@ -236,19 +236,27 @@ def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
     S_F_conservative = (s_y * 1000) / total       # safety factor against first cycle yield using the conservative approach
     return S_F_conservative
 
-def main(d, a_m, a_t, s_m, s_t):
+def main(d, a_m, a_t, s_m, s_t, geometry="input geometry"):
     ult, s_y = material_properties()
 
-    K_t, K_ts, r_notch = shoulder_fillet_sharp(d)
-    print(f"For sharp shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
+    if geometry == "sharp":         # sharp shoulder fillet
+        K_t, K_ts, r_notch = shoulder_fillet_sharp(d)
+        print(f"For sharp shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-    K_t, K_ts, r_notch = shoulder_fillet_round(d)
-    print(f"For round shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
+    elif geometry == "round":       # round shoulder fillet
+        K_t, K_ts, r_notch = shoulder_fillet_round(d)
+        print(f"For round shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-    K_t, K_ts, r_notch = end_mill_keyseat(d)
-    print(f"For end-mill keyseat, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
+    elif geometry == "keyseat":     # end mill keyseat
+        K_t, K_ts, r_notch = end_mill_keyseat(d)
+        print(f"For end-mill keyseat, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
-    K_t, K_ts, r_notch = retaining_ring_groove()
+    elif geometry == "retaining"
+        K_t, K_ts, r_notch = retaining_ring_groove()
+        print(f"For retaining ring groove, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}")
+        
+    else:
+        print(f"Please input a valid geometry")
 
     # this will vary on geometry!
     K_f, q, K_fs, q_shear = fatigue_factor(K_t, K_ts, r_notch, ult)
