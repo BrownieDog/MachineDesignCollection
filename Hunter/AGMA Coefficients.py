@@ -191,9 +191,6 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     Z_1 =  math.sqrt((r_P + a) ** 2 - r_bP ** 2)
     Z_2 = math.sqrt((r_G + a) ** 2 - r_bG ** 2)
     Z_3 = (r_P + r_G) * math.sin(math.radians(pt_angle))
-    print("Z1 " + str(Z_1))
-    print("Z2 " + str(Z_2))
-    print("Z3 " + str(Z_3))
 
     if Z_1 > Z_3:
         Z = Z_3 + Z_2 - Z_1
@@ -201,7 +198,6 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
         Z = Z_1 + Z_3 - Z_2
     else:
         Z = Z_1 + Z_2 - Z_3
-    print(Z)
     p_n = math.pi / P_n                 # normal circular pitch
     # round up to a standard
 
@@ -219,9 +215,8 @@ def bending_geometry_factor(p_x, F, N_teeth):
     # p_x is axial pitch
     # F is narrow face width
     # N_teeth is number of teeth
-    print(p_x)
-    print("here")
-    m_F = F / p_x       # unused now?
+
+    #m_F = F / p_x       # unused now?
 
     # J modifiers to find J
     if N_teeth <= 25:
@@ -283,7 +278,6 @@ def load_distribution_factor(d_P, F, S):
     # d_P is pinion pitch diameter
     # F is face width of the narrowest member
     # S is distance between center of bearings
-    print(d_P)
     C_mc = 1            # uncrowned
 
     if F <= 1:          # in
@@ -427,6 +421,8 @@ def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s,
     return S_H
     # must be greater than 1.2
 
+
+#end of AGMA Equations and start of gear size Equations
 def gear_ratio(rpm_in, rpm_out):
     # rpm_in is the number of rpms of the shaft in or number of teeth in and out...
     # rpm_out is the number of rpms of the shaft out
