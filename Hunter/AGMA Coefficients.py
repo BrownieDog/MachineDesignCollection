@@ -704,7 +704,7 @@ def main():
     K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
     #coefficients for gear
     print("Both the gear and pinion face width are " + str(F))
-    print("Both the gear and pinion are ")
+    print("Both the gear and pinion are made from steel and are grade 1 flame or induction hardened as per table 14-3 and 14-6")
     print(S_F_G)
     print(S_H_G)
     print(S_F_P)
