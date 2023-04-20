@@ -61,36 +61,45 @@ print("Fdz: ", Fdz)
 
 
 
-def InputPointMoments:
-    A = 3
-    E = 4.5
+def InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg):
+    A = 3.325
+    E = 5.25
     if (x-A) > 0:
         if (x-E) > 0:
-            My = (x-A) * Fay + (x-E) * Wr - (d/2) * Wa
-            Mz = (x-A) * Faz - (X-E) * Wt
+            My = (x-A) * Fay + (x-E) * Wr - (dg/2) * Wa
+            Mz = (x-A) * Faz - (x-E) * Wt
             M = math.sqrt(My ** 2 + Mz ** 2)
         else:
             My = (x-A) * Fay
             Mz = (x-A) * Faz
             M = math.sqrt(My ** 2 + Mz ** 2)
+    return M
 
-def OutputPointMoments:
-    if (x-C) > 0:
-        if (x-F) > 0:
-            My = (x-C) * Fcy - (x-F) * Wr - (d/2) * Wa
-            Mz = (x-C) * Fcz - (X-F) * Wt
+def OutputPointMoments(x,Fdy,Wr,Wa,Fdz,Wt, dp):
+    D = .5+.75+3+.325
+    F = 3.25
+    if (D-x) > 0:
+        if (F-x) > 0:
+            My = (D-x) * Fdy - (F-x) * Wr - (dp/2) * Wa
+            Mz = (D-x) * Fdz - (F-x) * Wt
             M = math.sqrt(My ** 2 + Mz ** 2)
         else:
-            My = (x-C) * Fcy
-            Mz = (x-C) * Fcz
+            My = (D-x) * Fdy
+            Mz = (D-x) * Fdz
             M = math.sqrt(My ** 2 + Mz ** 2)
-
-def InputPointTorque:
-    if x > 1 && x < 4.5:
+    return M
+def InputPointTorque(x,H,Ohi):
+    if (x > 1) and (x < 4.5):
         T = H/Ohi
+    else:
+        T = 0
+    return T
 
-def OuputPointTorque:
-    if x > 4.5 && x < end
+def OuputPointTorque(x,H,Oho):
+    if x > 2.75 and x <
         T = H/Oho
+    else:
+        T = 0
+    return T
 
 
