@@ -12,7 +12,7 @@ def shoulder_fillet_sharp(d):   # Table 7-1
 def shoulder_fillet_round(d):   # Table 7-1
     # d is diameter of shaft section
 
-    r_notch = d * 0.01  # notch radius
+    r_notch = d * 0.1  # notch radius
     K_t = 1.7           # K_t for bending
     K_ts = 1.5          # K_ts for shear
     return K_t, K_ts, r_notch
