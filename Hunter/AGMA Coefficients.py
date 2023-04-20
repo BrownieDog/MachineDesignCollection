@@ -476,8 +476,8 @@ def gear_max_teeth(N_P, k, helix_angle, pt_angle):     # maximum number of teeth
     return N_teeth
 
 def gear_sizes(N_P, N_G, rpm_in, rpm_out):
-    # N_P is the number of teeth of the pinion
-    # N_G is the number of teeth of the gear
+    # N_P is the minimum number of teeth of the pinion
+    # N_G is the maximum number of teeth of the gear
     # rpm_in is the number of rpms of the shaft in
     # rpm_out is the number of rpms of the shaft out
 
@@ -499,7 +499,7 @@ def check_gear_ratio(input_size, output_size, rpm_in, rpm_out, e):
 
     m = gear_ratio(rpm_in, rpm_out)  # gear ratio
 
-    actual_ratio = G_2 / G_1
+    actual_ratio = input_size / output_size
     percent_error = abs((actual_ratio - m) / m) * 100
     if percent_error < e:
         print("The specified Gear ratio is within allowable bounds. "
@@ -599,7 +599,7 @@ def main():
     #define k value and helix and normal pressure angles for equations 13-22 and 13-23
     k = 1
     helixAngle = 30
-    normalPressureAngle = 20
+    pn_angle = 20
 
 
     #equation 13-19 is used to find the transverse pressure angle
@@ -608,30 +608,30 @@ def main():
 
 
     #minimum number of teeth on the pinion is calculated from equation 13-22
-    minPinionTeeth = minimumNumberOfTeethOnPinion(m, k, helixAngle, transversePressureAngle)
+    minPinionTeeth = pinion_min_teeth(rpmIn,rpmOutIdeal, k, helixAngle, pt_angle)
     print("The minimum number of teeth allowable on the pinion is " + str(minPinionTeeth))
 
 
     #maximum number of teeth on the gear is calculated using equation 13-23
-    maxGearTeeth = maximumNumberOfTeethOnGear(minPinionTeeth, k, helixAngle, transversePressureAngle)
+    maxGearTeeth = gear_max_teeth(minPinionTeeth, k, helixAngle, pt_angle)
     print("The maximum number of teeth allowable on the gear is " + str(maxGearTeeth))
 
 
     #gear and pinion sizes are calculated using specified ratio
-    N_P_min += 2     # minimum number of pinion teeth
-    numberOfPinionTeeth, numberOfGearTeeth = gearSizes(minPinionTeeth, maxGearTeeth, m)
-    numberOfGearTeeth -= 0
+    minPinionTeeth += 2     # minimum number of pinion teeth
+    N_P, N_G = gear_sizes(minPinionTeeth, maxGearTeeth, rpmIn, rpmOutIdeal)
+
 
 
     #allowable tolerance is defined from the gear box specifications
-    print("The number of teeth on the pinion and gear are " + str(numberOfPinionTeeth) + " and " + str(N_G))
+    print("The number of teeth on the pinion and gear are " + str(N_P) + " and " + str(N_G))
     allowablePercentError = 1
 
 
     #chosen gear and pinion ratio is checked to ensure it is within tolerance
     print("The allowable percent error between the ideal and actual gear ratios is " + str(allowablePercentError) + "%")
-    checkGearRatio(numberOfPinionTeeth, numberOfGearTeeth, m, allowablePercentError)
-    actualGearRatio = gearratio(numberOfPinionTeeth, numberOfGearTeeth)
+    check_gear_ratio(N_G, N_P, rpmIn, rpmOutIdeal, allowablePercentError)
+    actualGearRatio = gear_ratio(N_P, N_G)
 
 
     #calculate the actual rpm output of the gear ratio
@@ -642,33 +642,33 @@ def main():
     #the normal diametral pitch is then selected from table 13-2. Based off the design requirements, height is not a primary concern, but should be limited
     #gear and pinion diameter affect forces on bearings
     #units in teeth/inch
-    normalDiametralPitch = findNormalDiametralPitch(numberOfPinionTeeth, numberOfGearTeeth, allowableWidth, clearanceAndWallThickness, helixAngle)
+    normalDiametralPitch = normal_diametral_pitch(N_P, N_G, allowableWidth, clearanceAndWallThickness, helixAngle)
     #transverse diametral pitch is calculated using equation 13-18
-    normalDiametralPitch = 8
-    transverseDiametralPitch = normalDiametralPitch * math.cos(math.radians(helixAngle))
-    print("Using a Normal pitch of " + str(normalDiametralPitch) + " the Transverse diametral pitch is " + str(transverseDiametralPitch) + " teeth per inch")
+    P_n = 8
+    P_d = P_n * math.cos(math.radians(helixAngle))
+    print("Using a Normal pitch of " + str(P_n) + " the Transverse diametral pitch is " + str(P_d) + " teeth per inch")
 
 
     #gear and pinion diameters are calculated using equation 13-1
-    pinionDiameter = numberOfPinionTeeth / transverseDiametralPitch
-    gearDiameter = numberOfGearTeeth / transverseDiametralPitch
-    print("The pinion diameter is " + str(pinionDiameter) + " inches and the gear diameter is " + str(gearDiameter) + " inches")
+    d_P = N_P / P_d
+    d_G = N_G / P_d
+    print("The pinion diameter is " + str(d_P) + " inches and the gear diameter is " + str(d_G) + " inches")
 
 
     #Pitchline Velocities are calculated
-    pitchline = pitchlineVelocity(gearDiameter, rpmIn)
-    print("The pitchline velocity is " + str(pitchline) + " feet/second")
+    V = pitchline_velocity(d_G, rpmIn)
+    print("The pitchline velocity is " + str(V) + " feet/second")
 
 
 
     #transmitted load is calculated
-    Wt = transmittedLoad(hp, pitchline)
-    print("The transmitted load is " + str(Wt))
-    cyclesPinion = cyclesLifetime(rpmOutActual)
-    cyclesGear = cyclesLifetime(rpmIn)
-    axialPitch = ((math.pi/ transverseDiametralPitch) / math.tan(math.radians(helixAngle)))
+    W_t = transmitted_load_tangential(hp, d_G, rpmIn)
+    print("The transmitted load is " + str(W_t))
+    N_cycle_P = cycles_lifetime(rpmOutActual)
+    N_cycle_G = cycles_lifetime(rpmIn)
+    p_x = ((math.pi/ P_d) / math.tan(math.radians(helixAngle)))
     normalCircularPitch = math.pi / normalDiametralPitch
-    Q_V = 11
+    Q_v = 11
     F = 2
     S = 3.375
     ### OLD ###
@@ -705,22 +705,11 @@ def main():
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
 
+    K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
     #coefficients for gear
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
-            pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
-            numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-
-    # This is the new updated order of the AGMA coefficient arguements, and return
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P\
-        = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
-
-    print(S_F_G, S_F_P, S_H_G, S_H_P)
-
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(
-        Wt, Q_V,
-        pitchline, transverseDiametralPitch, pinionDiameter, cyclesPinion, F, axialPitch, transversePressureAngle,
-        numberOfGearTeeth,
-        numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-    print(S_F_G, S_F_P, S_H_G, S_H_P)
+    print(S_F_G)
+    print(S_H_G)
+    print(S_F_P)
+    print(S_H_P)
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
