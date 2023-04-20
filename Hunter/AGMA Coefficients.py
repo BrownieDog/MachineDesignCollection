@@ -19,50 +19,79 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
 
 
     K_o = overload_factor()                         # overload factor
+    print(f"K_o = {K_o}")
+
     K_v = dynamic_factor(V, Q_v)                    # dynamic factor
+    print(f"K_v = {K_v}, where V = {V} and Q_v = {Q_v}")
+
     K_s = size_factor()                             # size factor
+    print(f"K_s = {K_s}")
+
     K_m = load_distribution_factor(d_P, F, S)       # load-distribution factor
+    print(f"K_m = {K_m}, where d_P = {d_P}, F = {F}, and S = {S}")
+
     K_B = rim_thickness_factor()                    # rim-thickness factor
+    print(f"K_B = {K_B}")
+
     J_P = bending_geometry_factor(p_x, F, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
+    print(f"J_P = {J_P}, where p_x = {p_x}, F = {F}, and N_P = {N_P}")
+
     J_G = bending_geometry_factor(p_x, F, N_G)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
-
-
+    print(f"J_G = {J_G}, where p_x = {p_x}, F = {F}, and N_G = {N_G}")
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
+    print(f"S_t = {S_t}, which is a guess")
 
     Y_N_P = bending_stress_cycle_factor(N_cycle_P)  # Y_N is bending stress cycle life factor for the pinion
+    print(f"Y_N_P = {Y_N_P}, where N_cycle_P = {N_cycle_P}")
+
     Y_N_G = bending_stress_cycle_factor(N_cycle_G)  # Y_N is bending stress cycle life factor for the gear
+    print(f"Y_N_G = {Y_N_G}, where N_cycle_G = {N_cycle_G}")
 
     K_T = temperature_factor()                      # temperature factor
+    print(f"K_T = {K_T}")
+
     K_R = reliability_factor()                      # reliability factor
+    print(f"K_R = {K_R}")
 
     C_p = elastic_coefficient()                     # elastic coefficient (sqrt(lbf/in^2))
+    print(f"C_p = {C_p}")
+
     C_f = surface_condition_factor()                # surface condition factor
+    print(f"C_f = {C_f}")
+
     I = contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n)  # I is contact geometry factor for pitting resistance
-
-
+    print(f"I = {I}, where pt_angle = {pt_angle}, N_G = {N_G}, N_P = {N_P}, d_G = {d_G}, d_P = {d_P}, P_n = {P_n}")
 
     S_c = 170000    # guess                         # allowable contact stress (lbf/in^2) - Table 14-6, 14-7, and Fig 14-5
+    print(f"S_c = {S_c}, which is a guess")
 
     Z_N_P = contact_stress_cycle_factor(N_cycle_P)            # Z_N is wear/contact stress cycle life factor
+    print(f"Z_N_P = {Z_N_P}, where N_cycle_P = {N_cycle_P}")
+
     Z_N_G = contact_stress_cycle_factor(N_cycle_G)            # Z_N is wear/contact stress cycle life factor
+    print(f"Z_N_G = {Z_N_G}, where N_cycle_G = {N_cycle_G}")
 
     C_H_G = gear_hardness_ratio_factor(N_G, N_P, d_G, d_P)       # gear hardness ratio factors for pitting resistance
+    print(f"C_H_G = {C_H_G}, where N_G = {N_G}, N_P = {N_P}, d_G = {d_G}, d_P = {d_P}")
+
     C_H_P = pinion_hardness_ratio_factor()          # pinion hardness ratio factors for pitting resistance
+    print(f"C_H_P = {C_H_P}")
 
     # AGMA bending stress factor of safety, a stress ratio
     S_F_G = bending_safety_factor_AGMA(S_t, Y_N_G, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_G)     # gear bending factor of safety
-    S_F_P = bending_safety_factor_AGMA(S_t, Y_N_P, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)     # pinion bending factor of safety
+    print(f"S_F_G = {S_F_G}, where S_t = {S_t}, Y_N_G = {Y_N_G}, K_T = {K_T}, K_R = {K_R}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, P_d = {P_d}, F = {F}, K_m = {K_m}, K_B = {K_B}, J_G = {J_G}")
 
+    S_F_P = bending_safety_factor_AGMA(S_t, Y_N_P, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J_P)     # pinion bending factor of safety
+    print(f"S_F_P = {S_F_P}, where S_t = {S_t}, Y_N_P = {Y_N_P}, K_T = {K_T}, K_R = {K_R}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, P_d = {P_d}, F = {F}, K_m = {K_m}, K_B = {K_B}, J_P = {J_P}")
 
     # AGMA wear/contact factor of safety, a stress ratio
     S_H_G = contact_safety_factor_AGMA(S_c, Z_N_G, C_H_G, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
-    S_H_P = contact_safety_factor_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    print(f"S_H_G = {S_H_G}, where S_c = {S_c}, Z_N_G = {Z_N_G}, C_H_G = {C_H_G}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
 
-    print("Stress and I")
-    print(calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I))
-    print(I)
-    #print(Z_N)
+    S_H_P = contact_safety_factor_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
+    print(f"S_H_G = {S_H_G}, where S_c = {S_c}, Z_N_G = {Z_N_P}, C_H_G = {C_H_P}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
+
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
     # SCOTT, I replaced Y_N with Y_N_P and then added Y_N_G after that.
     # The new Y_N_P and Y_N_G take into account that the gear and pinion have different number of cycles.
@@ -162,9 +191,6 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     Z_1 =  math.sqrt((r_P + a) ** 2 - r_bP ** 2)
     Z_2 = math.sqrt((r_G + a) ** 2 - r_bG ** 2)
     Z_3 = (r_P + r_G) * math.sin(math.radians(pt_angle))
-    print("Z1 " + str(Z_1))
-    print("Z2 " + str(Z_2))
-    print("Z3 " + str(Z_3))
 
     if Z_1 > Z_3:
         Z = Z_3 + Z_2 - Z_1
@@ -172,7 +198,6 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
         Z = Z_1 + Z_3 - Z_2
     else:
         Z = Z_1 + Z_2 - Z_3
-    print(Z)
     p_n = math.pi / P_n                 # normal circular pitch
     # round up to a standard
 
@@ -190,9 +215,8 @@ def bending_geometry_factor(p_x, F, N_teeth):
     # p_x is axial pitch
     # F is narrow face width
     # N_teeth is number of teeth
-    print(p_x)
-    print("here")
-    m_F = F / p_x       # unused now?
+
+    #m_F = F / p_x       # unused now?
 
     # J modifiers to find J
     if N_teeth <= 25:
@@ -254,7 +278,6 @@ def load_distribution_factor(d_P, F, S):
     # d_P is pinion pitch diameter
     # F is face width of the narrowest member
     # S is distance between center of bearings
-    print(d_P)
     C_mc = 1            # uncrowned
 
     if F <= 1:          # in
@@ -398,6 +421,8 @@ def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s,
     return S_H
     # must be greater than 1.2
 
+
+#end of AGMA Equations and start of gear size Equations
 def gear_ratio(rpm_in, rpm_out):
     # rpm_in is the number of rpms of the shaft in or number of teeth in and out...
     # rpm_out is the number of rpms of the shaft out
@@ -447,8 +472,8 @@ def gear_max_teeth(N_P, k, helix_angle, pt_angle):     # maximum number of teeth
     return N_teeth
 
 def gear_sizes(N_P, N_G, rpm_in, rpm_out):
-    # N_P is the number of teeth of the pinion
-    # N_G is the number of teeth of the gear
+    # N_P is the minimum number of teeth of the pinion
+    # N_G is the maximum number of teeth of the gear
     # rpm_in is the number of rpms of the shaft in
     # rpm_out is the number of rpms of the shaft out
 
@@ -470,7 +495,7 @@ def check_gear_ratio(input_size, output_size, rpm_in, rpm_out, e):
 
     m = gear_ratio(rpm_in, rpm_out)  # gear ratio
 
-    actual_ratio = G_2 / G_1
+    actual_ratio = input_size / output_size
     percent_error = abs((actual_ratio - m) / m) * 100
     if percent_error < e:
         print("The specified Gear ratio is within allowable bounds. "
@@ -570,7 +595,7 @@ def main():
     #define k value and helix and normal pressure angles for equations 13-22 and 13-23
     k = 1
     helixAngle = 30
-    normalPressureAngle = 20
+    pn_angle = 20
 
 
     #equation 13-19 is used to find the transverse pressure angle
@@ -579,30 +604,30 @@ def main():
 
 
     #minimum number of teeth on the pinion is calculated from equation 13-22
-    minPinionTeeth = minimumNumberOfTeethOnPinion(m, k, helixAngle, transversePressureAngle)
+    minPinionTeeth = pinion_min_teeth(rpmIn,rpmOutIdeal, k, helixAngle, pt_angle)
     print("The minimum number of teeth allowable on the pinion is " + str(minPinionTeeth))
 
 
     #maximum number of teeth on the gear is calculated using equation 13-23
-    maxGearTeeth = maximumNumberOfTeethOnGear(minPinionTeeth, k, helixAngle, transversePressureAngle)
+    maxGearTeeth = gear_max_teeth(minPinionTeeth, k, helixAngle, pt_angle)
     print("The maximum number of teeth allowable on the gear is " + str(maxGearTeeth))
 
 
     #gear and pinion sizes are calculated using specified ratio
-    N_P_min += 2     # minimum number of pinion teeth
-    numberOfPinionTeeth, numberOfGearTeeth = gearSizes(minPinionTeeth, maxGearTeeth, m)
-    numberOfGearTeeth -= 0
+    minPinionTeeth += 2     # minimum number of pinion teeth
+    N_P, N_G = gear_sizes(minPinionTeeth, maxGearTeeth, rpmIn, rpmOutIdeal)
+
 
 
     #allowable tolerance is defined from the gear box specifications
-    print("The number of teeth on the pinion and gear are " + str(numberOfPinionTeeth) + " and " + str(N_G))
+    print("The number of teeth on the pinion and gear are " + str(N_P) + " and " + str(N_G))
     allowablePercentError = 1
 
 
     #chosen gear and pinion ratio is checked to ensure it is within tolerance
     print("The allowable percent error between the ideal and actual gear ratios is " + str(allowablePercentError) + "%")
-    checkGearRatio(numberOfPinionTeeth, numberOfGearTeeth, m, allowablePercentError)
-    actualGearRatio = gearratio(numberOfPinionTeeth, numberOfGearTeeth)
+    check_gear_ratio(N_G, N_P, rpmIn, rpmOutIdeal, allowablePercentError)
+    actualGearRatio = gear_ratio(N_P, N_G)
 
 
     #calculate the actual rpm output of the gear ratio
@@ -613,33 +638,33 @@ def main():
     #the normal diametral pitch is then selected from table 13-2. Based off the design requirements, height is not a primary concern, but should be limited
     #gear and pinion diameter affect forces on bearings
     #units in teeth/inch
-    normalDiametralPitch = findNormalDiametralPitch(numberOfPinionTeeth, numberOfGearTeeth, allowableWidth, clearanceAndWallThickness, helixAngle)
+    normalDiametralPitch = normal_diametral_pitch(N_P, N_G, allowableWidth, clearanceAndWallThickness, helixAngle)
     #transverse diametral pitch is calculated using equation 13-18
-    normalDiametralPitch = 8
-    transverseDiametralPitch = normalDiametralPitch * math.cos(math.radians(helixAngle))
-    print("Using a Normal pitch of " + str(normalDiametralPitch) + " the Transverse diametral pitch is " + str(transverseDiametralPitch) + " teeth per inch")
+    P_n = 8
+    P_d = P_n * math.cos(math.radians(helixAngle))
+    print("Using a Normal pitch of " + str(P_n) + " the Transverse diametral pitch is " + str(P_d) + " teeth per inch")
 
 
     #gear and pinion diameters are calculated using equation 13-1
-    pinionDiameter = numberOfPinionTeeth / transverseDiametralPitch
-    gearDiameter = numberOfGearTeeth / transverseDiametralPitch
-    print("The pinion diameter is " + str(pinionDiameter) + " inches and the gear diameter is " + str(gearDiameter) + " inches")
+    d_P = N_P / P_d
+    d_G = N_G / P_d
+    print("The pinion diameter is " + str(d_P) + " inches and the gear diameter is " + str(d_G) + " inches")
 
 
     #Pitchline Velocities are calculated
-    pitchline = pitchlineVelocity(gearDiameter, rpmIn)
-    print("The pitchline velocity is " + str(pitchline) + " feet/second")
+    V = pitchline_velocity(d_G, rpmIn)
+    print("The pitchline velocity is " + str(V) + " feet/second")
 
 
 
     #transmitted load is calculated
-    Wt = transmittedLoad(hp, pitchline)
-    print("The transmitted load is " + str(Wt))
-    cyclesPinion = cyclesLifetime(rpmOutActual)
-    cyclesGear = cyclesLifetime(rpmIn)
-    axialPitch = ((math.pi/ transverseDiametralPitch) / math.tan(math.radians(helixAngle)))
+    W_t = transmitted_load_tangential(hp, d_G, rpmIn)
+    print("The transmitted load is " + str(W_t))
+    N_cycle_P = cycles_lifetime(rpmOutActual)
+    N_cycle_G = cycles_lifetime(rpmIn)
+    p_x = ((math.pi/ P_d) / math.tan(math.radians(helixAngle)))
     normalCircularPitch = math.pi / normalDiametralPitch
-    Q_V = 11
+    Q_v = 11
     F = 2
     S = 3.375
     ### OLD ###
@@ -676,22 +701,11 @@ def main():
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
 
+    K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
     #coefficients for gear
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(Wt, Q_V,
-            pitchline, transverseDiametralPitch, pinionDiameter, cyclesGear, F, axialPitch, transversePressureAngle, numberOfGearTeeth,
-            numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-
-    # This is the new updated order of the AGMA coefficient arguements, and return
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P\
-        = AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S)
-
-    print(S_F_G, S_F_P, S_H_G, S_H_P)
-
-    K_o, K_v, K_s, K_m, K_B, S_t, Y_N, K_T, K_R, C_p, C_f, I, S_c, Z_N, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P = AGMA_coefficients(
-        Wt, Q_V,
-        pitchline, transverseDiametralPitch, pinionDiameter, cyclesPinion, F, axialPitch, transversePressureAngle,
-        numberOfGearTeeth,
-        numberOfPinionTeeth, gearDiameter, normalDiametralPitch, S)
-    print(S_F_G, S_F_P, S_H_G, S_H_P)
+    print(S_F_G)
+    print(S_H_G)
+    print(S_F_P)
+    print(S_H_P)
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
