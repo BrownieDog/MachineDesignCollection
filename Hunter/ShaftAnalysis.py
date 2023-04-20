@@ -156,7 +156,7 @@ def alternating_stress(K_f, K_fs, a_m, a_t, d):
     # d is diameter of shaft section
 
     a_norm = ((32 * K_f * a_m) / (math.pi * (d ** 3)))
-    a_shear = (3 * (16 * K_fs * a_t) / (math.pi * (d ** 3)))
+    a_shear = ((16 * K_fs * a_t) / (math.pi * (d ** 3)))
     return a_norm, a_shear
 
 def steady_stress(K_f, K_fs, s_m, s_t, d):
@@ -220,9 +220,19 @@ def first_cycle_yield_conservative(K_f, K_fs, a_m, a_t, s_m, s_t, d, s_y):
     # d is diameter of shaft section
     # s_y is yield strength
 
-    a_norm, a_shear, s_norm, s_shear = total_stress(K_f, K_fs, a_m, a_t, s_m, s_t, d)
+    a_norm = ((32 * K_f * a_m) / (math.pi * (d ** 3)))
+    print(f"a_norm = {a_norm}")
+    a_shear = ((16 * K_fs * a_t) / (math.pi * (d ** 3)))
+    print(f"a_shear = {a_shear}")
+
+    s_norm = (32 * K_f * s_m) / (math.pi * (d ** 3))
+    print(f"s_norm = {s_norm}")
+    s_shear = (16 * K_fs * s_t) / (math.pi * (d ** 3))
+    print(f"s_shear = {s_shear}")
 
     alt = math.sqrt((a_norm ** 2) + (3 * (a_shear ** 2)))       # total alternating stress
+
+
     steady = math.sqrt((s_norm ** 2) + (3 * (s_shear ** 2)))    # total steady stress
     total = alt + steady                                        # total stress
 
