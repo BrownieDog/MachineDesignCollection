@@ -18,10 +18,12 @@ T_output = W_t * R_P
 print(T_output)
 
 #the input and output shaft diameters at the gears are listed below
+#once the shaft sizes are determined update these
 D_input = 1
 D_output = 1
 
 #from table 7-6 the key sizes are determined and listed below. the keys are square keys
+#once the shaft sizes are determined update these
 t_Input = 0.1
 t_Output = 0.1
 
