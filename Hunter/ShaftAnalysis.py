@@ -147,13 +147,6 @@ def material_properties():
     s_y = 37.5      # ksi   yield strength
     return ult, s_y
 
-def alternating_load():
-    alternating_moment = 0
-    alternating_torque = 0
-
-def steady_load():
-    steady_moment = 0
-    steady_torque = 0
 
 def alternating_stress(K_f, K_fs, a_m, a_t, d):
     # K_f is fatigue bending stress concentration factor

@@ -1,4 +1,4 @@
-
+from ShaftAnalysis import *
 
 import math
 sin = math.sin
@@ -135,17 +135,23 @@ X = W + .75
 Y = X + .25
 Z = X + 1
 
+s_m = 0
+a_t = 0
 
 ## Point G
 
 xi = G
-
-a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
-s_t = InputPointTorque(xi,H,Ohi)
-print("\nTi: ", Ti)
-print("a_m", a_m)
-
-
+S_F_goodman = 0
+S_F_conservative = 0
+d = .2
+while S_F_goodman < 1.5 and S_F_conservative < 1.5:
+    a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
+    s_t = InputPointTorque(xi,H,Ohi)
+    print("\nTi: ", Ti)
+    print("a_m", a_m)
+    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "keyseat")
+    d +=.1
+    print("diameter: ", d)
 
 
 
