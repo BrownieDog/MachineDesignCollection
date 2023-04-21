@@ -99,7 +99,7 @@ def OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp):
     else: M = 0
     return M
 def InputPointTorque(x,Hlb,Ohi):
-    if (x > 1) and (x < 4.5):
+    if (x > 1) and (x < 5.25):
         T = Hlb/Ohi
     else:
         T = 0
@@ -144,6 +144,8 @@ print("\nPoint G")
 scf = 3
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = H
@@ -151,6 +153,8 @@ print("\nPoint H")
 scf = 2
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = I
@@ -158,6 +162,8 @@ print("\nPoint I")
 scf = 4
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = J
@@ -165,6 +171,8 @@ print("\nPoint J")
 scf = 1
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = K
@@ -172,6 +180,8 @@ print("\nPoint K")
 scf = 2
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = L
@@ -179,6 +189,8 @@ print("\nPoint L")
 scf = 4
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = M
@@ -186,6 +198,8 @@ print("\nPoint M")
 scf = 3
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = N
@@ -193,6 +207,8 @@ print("\nPoint N")
 scf = 2
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = O
@@ -200,6 +216,8 @@ print("\nPoint O")
 scf = 2
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = P
@@ -207,6 +225,8 @@ print("\nPoint P")
 scf = 1
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = Q
@@ -214,6 +234,8 @@ print("\nPoint Q")
 scf = 1
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = R
@@ -221,6 +243,8 @@ print("\nPoint R")
 scf = 2
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = S
@@ -228,6 +252,8 @@ print("\nPoint S")
 scf = 2
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = T
@@ -235,6 +261,8 @@ print("\nPoint T")
 scf = 3
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = U
@@ -242,6 +270,8 @@ print("\nPoint U")
 scf = 4
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = V
@@ -249,6 +279,8 @@ print("\nPoint V")
 scf = 2
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = W
@@ -256,6 +288,8 @@ print("\nPoint W")
 scf = 1
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = X
@@ -263,6 +297,8 @@ print("\nPoint X")
 scf = 4
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = Y
@@ -270,6 +306,8 @@ print("\nPoint Y")
 scf = 2
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 x = Z
@@ -277,6 +315,8 @@ print("\nPoint Z")
 scf = 3
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
+print("Moment: ", a_m, "lbf")
+print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 
 
