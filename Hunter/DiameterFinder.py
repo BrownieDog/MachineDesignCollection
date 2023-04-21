@@ -10,7 +10,7 @@ import math
 #A_M = Alternating Bending Moment
 def findDiameter(Stress_Concentrator, S_T, A_M ):
     #this section of code request all the necessary data to perform the calculations
-    print("Please enter all requested values in English/Imperial Units")
+    #print("Please enter all requested values in English/Imperial Units")
     FullyReversedBendingMoment = A_M
     SteadyTorque = S_T
     RelevantShaftDiameter = .11
@@ -164,4 +164,3 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     print("The Conservative Yield Safety Factor is " + str(SafetyFactorConservative))
     print("The Diameter is " + str(RelevantShaftDiameter))
 
-findDiameter(2, 1411, 102)

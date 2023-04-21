@@ -1,4 +1,5 @@
 from ShaftAnalysis import *
+from DiameterFinder import *
 
 import math
 sin = math.sin
@@ -14,7 +15,7 @@ psi = math.radians(30) ## helix angle
 phin = math.radians(20) ## Normal pressure angle
 phit = (math.atan(tan(phin)/cos(psi)))
 
-face = 1
+face = 1.5
 
 Hlb = 550*hp*60*12/(2*math.pi)
 Ti = Hlb/Ohi
@@ -47,12 +48,12 @@ Fcx = Wa
 Fcy = (Wr-Fdy)
 Fcz = Wt-Fdz
 
-print("gear forces")
+print("\nGear forces")
 print("Wt: ", Wt)
 print("Wr: ", Wr)
 print("Wa: ", Wa)
 
-print("Input shaft")
+print("\nInput shaft")
 print("Fay: ", Fay)
 print("Faz: ", Faz)
 print("Fbx: ", Fbx)
@@ -68,44 +69,44 @@ print("Fdz: ", Fdz)
 
 
 
-def InputPointMoments(xi, Fay, Wr, Wa, Faz, Wt, dg):
+def InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg):
     A = 3.375
     E = 5.25
-    if (xi-A) > 0:
-        if (xi-E) > 0:
-            My = (xi-A) * Fay + (xi-E) * Wr - (dg/2) * Wa
-            Mz = (xi-A) * Faz - (xi-E) * Wt
+    if (x - A) > 0:
+        if (x - E) > 0:
+            My = (x - A) * Fay + (x - E) * Wr - (dg / 2) * Wa
+            Mz = (x - A) * Faz - (x - E) * Wt
             a_m = math.sqrt(My ** 2 + Mz ** 2)
         else:
-            My = (xi-A) * Fay
-            Mz = (xi-A) * Faz
+            My = (x - A) * Fay
+            Mz = (x - A) * Faz
             a_m = math.sqrt(My ** 2 + Mz ** 2)
     else: a_m = 0
     return a_m
 
-def OutputPointMoments(xo,Fdy,Wr,Wa,Fdz,Wt, dp):
+def OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp):
     D = .5+.75+3+.325
     F = 3.25
-    if (D-xo) > 0:
-        if (F-xo) > 0:
-            My = (D-xo) * Fdy - (F-xo) * Wr - (dp/2) * Wa
-            Mz = (D-xo) * Fdz - (F-xo) * Wt
+    if (D - x) > 0:
+        if (F - x) > 0:
+            My = (D - x) * Fdy - (F - x) * Wr - (dp / 2) * Wa
+            Mz = (D - x) * Fdz - (F - x) * Wt
             M = math.sqrt(My ** 2 + Mz ** 2)
         else:
-            My = (D-xo) * Fdy
-            Mz = (D-xo) * Fdz
+            My = (D - x) * Fdy
+            Mz = (D - x) * Fdz
             M = math.sqrt(My ** 2 + Mz ** 2)
     else: M = 0
     return M
-def InputPointTorque(xi,Hlb,Ohi):
-    if (xi > 1) and (xi < 4.5):
+def InputPointTorque(x,Hlb,Ohi):
+    if (x > 1) and (x < 4.5):
         T = Hlb/Ohi
     else:
         T = 0
     return T
 
-def OutputPointTorque(xo,Hlb,Oho):
-    if xo > 2.75 and xo < 7:
+def OutputPointTorque(x,Hlb,Oho):
+    if x > 2.75 and x < 7:
         T = Hlb/Oho
     else:
         T = 0
@@ -138,20 +139,159 @@ Z = X + 1
 s_m = 0
 a_t = 0
 
-## Point G
-#
-#xi = J
-#S_F_goodman = 0
-#S_F_conservative = 0
-#d = .2
-#while S_F_goodman < 1.5 or S_F_conservative < 1.5:
-#    a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
-#    s_t = InputPointTorque(xi,Hlb,Ohi)
-#    print("\ns_t: ", s_t)
-#    print("a_m", a_m)
-#    print("diameter: ", d)
-#    S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
-#    d += .001
+x = G
+print("\nPoint G")
+scf = 3
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = H
+print("\nPoint H")
+scf = 2
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = I
+print("\nPoint I")
+scf = 4
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = J
+print("\nPoint J")
+scf = 1
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = K
+print("\nPoint K")
+scf = 2
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = L
+print("\nPoint L")
+scf = 4
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = M
+print("\nPoint M")
+scf = 3
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = N
+print("\nPoint N")
+scf = 2
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = O
+print("\nPoint O")
+scf = 2
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = P
+print("\nPoint P")
+scf = 1
+a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
+s_t = InputPointTorque(x, Hlb, Ohi)
+findDiameter(scf, s_t, a_m)
+
+x = Q
+print("\nPoint Q")
+scf = 1
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = R
+print("\nPoint R")
+scf = 2
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = S
+print("\nPoint S")
+scf = 2
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = T
+print("\nPoint T")
+scf = 3
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = U
+print("\nPoint U")
+scf = 4
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = V
+print("\nPoint V")
+scf = 2
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = W
+print("\nPoint W")
+scf = 1
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = X
+print("\nPoint X")
+scf = 4
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = Y
+print("\nPoint Y")
+scf = 2
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+x = Z
+print("\nPoint Z")
+scf = 3
+a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
+s_t = OutputPointTorque(x, Hlb, Oho)
+findDiameter(scf, s_t, a_m)
+
+
+# xi = J
+# S_F_goodman = 0
+# S_F_conservative = 0
+# d = .2
+# while S_F_goodman < 1.5 or S_F_conservative < 1.5:
+#     a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
+#     s_t = InputPointTorque(xi,Hlb,Ohi)
+#     print("\ns_t: ", s_t)
+#     print("a_m", a_m)
+#     print("diameter: ", d)
+#     S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
+#     d += .1
 
 
 

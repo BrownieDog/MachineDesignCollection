@@ -244,7 +244,7 @@ def main(d, a_m, a_t, s_m, s_t, geometry="input geometry"):
 
     if geometry == "sharp":         # sharp shoulder fillet
         K_t, K_ts, r_notch = shoulder_fillet_sharp(d)
-        print(f"For sharp shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
+        print("For sharp shoulder, K_t = {K_t}, K_ts = {K_ts}, r_notch = {r_notch}, where d = {d}")
 
     elif geometry == "round":       # round shoulder fillet
         K_t, K_ts, r_notch = shoulder_fillet_round(d)
