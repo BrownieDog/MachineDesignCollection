@@ -19,7 +19,7 @@ print(T_output)
 
 #the input and output shaft diameters at the gears are listed below
 #once the shaft sizes are determined update these
-D_input = 1.5
+D_input = 1.1257
 D_output = 1.25
 
 #from table 7-6 the key sizes are determined and listed below. the keys are square keys
