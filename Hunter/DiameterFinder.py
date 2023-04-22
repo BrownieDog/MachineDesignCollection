@@ -163,4 +163,9 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     print("The Goodman Safety Factor is " + str(SafetyFactorGoodman))
     print("The Conservative Yield Safety Factor is " + str(SafetyFactorConservative))
     print("The Diameter is " + str(RelevantShaftDiameter))
+    print("Kt value: ", Kt)
+    print("Kts value: ", Kts)
+    print("Kf value: ", Kf)
+    print("Kfs value: ", Kfs)
+
 
