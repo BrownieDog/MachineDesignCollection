@@ -33,10 +33,10 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     K_B = rim_thickness_factor()                    # rim-thickness factor
     print(f"K_B = {K_B}")
 
-    J_P = bending_geometry_factor(p_x, F, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
+    J_P = bending_geometry_factor(p_x, F, N_P, N_G)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the pinion
     print(f"J_P = {J_P}, where p_x = {p_x}, F = {F}, and N_P = {N_P}")
 
-    J_G = bending_geometry_factor(p_x, F, N_G)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
+    J_G = bending_geometry_factor(p_x, F, N_G, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
     print(f"J_G = {J_G}, where p_x = {p_x}, F = {F}, and N_G = {N_G}")
 
     S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
@@ -211,35 +211,37 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
 
     return I_ext                    # external gear
 
-def bending_geometry_factor(p_x, F, N_teeth):
+def bending_geometry_factor(p_x, F, N_teeth_1, N_teeth_2):
     # p_x is axial pitch
     # F is narrow face width
-    # N_teeth is number of teeth
+    # N_teeth_1 is number of teeth of the gear being considered
+    # N_teeth_2 is number of teeth of the other gear
+    # if N_teeth_1 is the pinion, then N_teeth_2 i the gear
 
     #m_F = F / p_x       # unused now?
 
     # J modifiers to find J
-    if N_teeth <= 25:
+    if N_teeth_1 <= 25:
         J_mod = 0.465           # Fig 14-7
-    elif N_teeth <= 45:
+    elif N_teeth_1 <= 45:
         J_mod = 0.5             # Fig 14-7
-    elif N_teeth <= 105:
+    elif N_teeth_1 <= 105:
         J_mod = 0.54            # Fig 14-7
-    elif N_teeth <= 325:
+    elif N_teeth_1 <= 325:
         J_mod = 0.565           # Fig 14-7
     else:
         J_mod = 0.58            # Fig 14-7
 
     # J factors to find J
-    if N_teeth <= 25:
+    if N_teeth_2 <= 25:
         J_factor = 0.945        # Fig 14-8
-    elif N_teeth <= 40:
+    elif N_teeth_2 <= 40:
         J_factor = 0.965        # Fig 14-8
-    elif N_teeth <= 62:
+    elif N_teeth_2 <= 62:
         J_factor = 0.99         # Fig 14-8
-    elif N_teeth <= 112:
+    elif N_teeth_2 <= 112:
         J_factor = 1.0          # Fig 14-8
-    elif N_teeth <= 325:
+    elif N_teeth_2 <= 325:
         J_factor = 1.015        # Fig 14-8
     else:
         J_factor = 1.0275       # Fig 14-8
