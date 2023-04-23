@@ -21,6 +21,11 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     loopvar = True
     while loopvar == True:
 
+        if Stress_Concentrator == 0:
+            Kt = 1
+            Kts = 1
+            StressConcentrationRadius = 0
+            loopvar = False
         if Stress_Concentrator ==1:
             Kt=2.7
             Kts=2.2
@@ -55,7 +60,12 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     while not SafetyFactorMet:
         #the stress concentration radius must be calculated for each iteration, which this sort does. menuSelect is defined by user input before the loop
         #this ensures that the stress concentration factors are updated each iteration
-        if Stress_Concentrator ==1:
+        if Stress_Concentrator == 0:
+            Kt = 1
+            Kts = 1
+            StressConcentrationRadius = 0
+            loopvar = False
+        elif Stress_Concentrator ==1:
             Kt=2.7
             Kts=2.2
             StressConcentrationRadius = RelevantShaftDiameter * .02
@@ -110,20 +120,24 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
         #calculate the Endurance Limit in Ksi using equation 6-17
         EnduranceLimit = EnduranceStrengthPrime * ka * kb * kc * kd * ke * kf
 
+        if Kt == 1:
+            Kf = 1
+            Kfs = 1
+        else:
 
-        # find Kf, which is the bending stress concentration factor
-        # find square root of a for bending using equation 6-35
-        SquareRootofaforBending = 0.246 - 3.08 * (10 ** -3) * UltimateTensileStrength + 1.51 * (10 ** -5) * (
-                    UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
-        # calculate Kf using equation 6-34
-        Kf = 1 + (Kt - 1) / (1 + (SquareRootofaforBending / math.sqrt(StressConcentrationRadius)))
+            # find Kf, which is the bending stress concentration factor
+            # find square root of a for bending using equation 6-35
+            SquareRootofaforBending = 0.246 - 3.08 * (10 ** -3) * UltimateTensileStrength + 1.51 * (10 ** -5) * (
+                        UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
+            # calculate Kf using equation 6-34
+            Kf = 1 + (Kt - 1) / (1 + (SquareRootofaforBending / math.sqrt(StressConcentrationRadius)))
 
-        # find Kfs, which is the torsional stress concentration factor
-        # find square root of a for torsion using equation 6-36
-        SquareRootofaforTorsion = 0.190 - 2.51 * (10 ** -3) * UltimateTensileStrength + 1.35 * (10 ** -5) * (
-                    UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
-        # calculate Kfs using equation 6-34
-        Kfs = 1 + (Kts - 1) / (1 + (SquareRootofaforTorsion / math.sqrt(StressConcentrationRadius)))
+            # find Kfs, which is the torsional stress concentration factor
+            # find square root of a for torsion using equation 6-36
+            SquareRootofaforTorsion = 0.190 - 2.51 * (10 ** -3) * UltimateTensileStrength + 1.35 * (10 ** -5) * (
+                        UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
+            # calculate Kfs using equation 6-34
+            Kfs = 1 + (Kts - 1) / (1 + (SquareRootofaforTorsion / math.sqrt(StressConcentrationRadius)))
 
 
         # calculate out the Goodman Safety Factor using equation 7-7, the right hand side is calculated first, then 1 is divided by that side to solve for n
@@ -163,7 +177,7 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     #print the safety factors and the diameter
     print("The Goodman Safety Factor is " + str(SafetyFactorGoodman))
     print("The Conservative Yield Safety Factor is " + str(SafetyFactorConservative))
-    print("The Diameter is " + str(RelevantShaftDiameter))
+    print("The minimum diameter is " + str(RelevantShaftDiameter))
     print("Kt value: ", Kt)
     print("Kts value: ", Kts)
     print("Kf value: ", Kf)
@@ -177,7 +191,12 @@ def SafetyFactors(Stress_Concentrator, S_T, A_M, RelevantShaftDiameter ):
 
 #the stress concentration radius must be calculated for each iteration, which this sort does. menuSelect is defined by user input before the loop
         #this ensures that the stress concentration factors are updated each iteration
-    if Stress_Concentrator ==1:
+    if Stress_Concentrator == 0:
+        Kt = 1
+        Kts = 1
+        StressConcentrationRadius = 0
+        loopvar = False
+    elif Stress_Concentrator ==1:
         Kt=2.7
         Kts=2.2
         StressConcentrationRadius = RelevantShaftDiameter * .02
@@ -232,20 +251,24 @@ def SafetyFactors(Stress_Concentrator, S_T, A_M, RelevantShaftDiameter ):
     #calculate the Endurance Limit in Ksi using equation 6-17
     EnduranceLimit = EnduranceStrengthPrime * ka * kb * kc * kd * ke * kf
 
+    if Kt == 1:
+        Kf = 1
+        Kfs = 1
+    else:
 
-    # find Kf, which is the bending stress concentration factor
-    # find square root of a for bending using equation 6-35
-    SquareRootofaforBending = 0.246 - 3.08 * (10 ** -3) * UltimateTensileStrength + 1.51 * (10 ** -5) * (
-                UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
-    # calculate Kf using equation 6-34
-    Kf = 1 + (Kt - 1) / (1 + (SquareRootofaforBending / math.sqrt(StressConcentrationRadius)))
+        # find Kf, which is the bending stress concentration factor
+        # find square root of a for bending using equation 6-35
+        SquareRootofaforBending = 0.246 - 3.08 * (10 ** -3) * UltimateTensileStrength + 1.51 * (10 ** -5) * (
+                    UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
+        # calculate Kf using equation 6-34
+        Kf = 1 + (Kt - 1) / (1 + (SquareRootofaforBending / math.sqrt(StressConcentrationRadius)))
 
-    # find Kfs, which is the torsional stress concentration factor
-    # find square root of a for torsion using equation 6-36
-    SquareRootofaforTorsion = 0.190 - 2.51 * (10 ** -3) * UltimateTensileStrength + 1.35 * (10 ** -5) * (
-                UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
-    # calculate Kfs using equation 6-34
-    Kfs = 1 + (Kts - 1) / (1 + (SquareRootofaforTorsion / math.sqrt(StressConcentrationRadius)))
+        # find Kfs, which is the torsional stress concentration factor
+        # find square root of a for torsion using equation 6-36
+        SquareRootofaforTorsion = 0.190 - 2.51 * (10 ** -3) * UltimateTensileStrength + 1.35 * (10 ** -5) * (
+                    UltimateTensileStrength ** 2) - 2.67 * (10 ** -8) * (UltimateTensileStrength ** 3)
+        # calculate Kfs using equation 6-34
+        Kfs = 1 + (Kts - 1) / (1 + (SquareRootofaforTorsion / math.sqrt(StressConcentrationRadius)))
 
 
     # calculate out the Goodman Safety Factor using equation 7-7, the right hand side is calculated first, then 1 is divided by that side to solve for n
@@ -269,5 +292,6 @@ def SafetyFactors(Stress_Concentrator, S_T, A_M, RelevantShaftDiameter ):
     n = (YieldStrength * (10 ** 3)) / ConservativeVonMises
     SafetyFactorConservative = n
 
+    print("Diameter: ", RelevantShaftDiameter)
     print("Conservative safety factor: ", SafetyFactorConservative)
     print("Goodman safety factor: ", SafetyFactorGoodman)
