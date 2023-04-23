@@ -147,6 +147,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = H
 print("\nPoint H")
@@ -156,6 +157,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = I
 print("\nPoint I")
@@ -165,6 +167,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = J
 print("\nPoint J")
@@ -174,6 +177,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = K
 print("\nPoint K")
@@ -183,6 +187,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = L
 print("\nPoint L")
@@ -192,6 +197,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = M
 print("\nPoint M")
@@ -201,6 +207,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = N
 print("\nPoint N")
@@ -210,6 +217,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = O
 print("\nPoint O")
@@ -219,6 +227,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = P
 print("\nPoint P")
@@ -228,6 +237,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = Q
 print("\nPoint Q")
@@ -237,6 +247,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = R
 print("\nPoint R")
@@ -246,6 +257,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = S
 print("\nPoint S")
@@ -255,6 +267,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = T
 print("\nPoint T")
@@ -264,6 +277,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = U
 print("\nPoint U")
@@ -273,6 +287,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = V
 print("\nPoint V")
@@ -282,6 +297,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = W
 print("\nPoint W")
@@ -291,6 +307,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = X
 print("\nPoint X")
@@ -300,6 +317,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = Y
 print("\nPoint Y")
@@ -309,6 +327,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 x = Z
 print("\nPoint Z")
@@ -318,6 +337,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+SafetyFactors(scf, s_t, a_m, d)
 
 
 # xi = J
