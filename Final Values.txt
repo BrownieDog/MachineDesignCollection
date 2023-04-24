@@ -21,7 +21,6 @@ Questions for elsworth
 do shaft diameters need rounded up to any kind of standard size. ie round to the nearest tenth inch
 do the gears need to have a rim specified or can we assume that they are the same thickness all across for finding rim thickness factor
 
-
 C:\Users\alexr\AppData\Local\Programs\Python\Python39\python.exe "C:\Users\alexr\OneDrive\School\2023Spring\Machine Design\MachineDesignCollection\Hunter\Forces.py"
 
 Gear forces
@@ -47,15 +46,6 @@ Point G
 Moment:  0 lbf
 Torque:  1411.0154656206842 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.7200011073256722
-The Conservative Yield Safety Factor is 1.5000006106575403
-The minimum diameter is 1.050439999998424
-Kt value:  2.14
-Kts value:  3.0
-Kf value:  1.6801760854381071
-Kfs value:  2.3279769204241303
-
 Safety Factors based on input diameter
 Diameter:  1.051
 Conservative safety factor:  1.5023656884523107
@@ -64,15 +54,6 @@ Goodman safety factor:  2.7242897817268563
 Point H
 Moment:  0 lbf
 Torque:  1411.0154656206842 in-lb
-
-Calculated Diameter
-The Goodman Safety Factor is 2.720029213128761
-The Conservative Yield Safety Factor is 1.5000161101813023
-The minimum diameter is 0.8869099999986083
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5267011468461194
-Kfs value:  1.4011892533600618
 
 Safety Factors based on input diameter
 Diameter:  1.051
@@ -83,15 +64,6 @@ Point I
 Moment:  0 lbf
 Torque:  1411.0154656206842 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.720066293519999
-The Conservative Yield Safety Factor is 1.50003655892647
-The minimum diameter is 1.0235599999982479
-Kt value:  5.0
-Kts value:  3.0
-Kf value:  3.0203339990306923
-Kfs value:  2.1537440989681316
-
 Safety Factors based on input diameter
 Diameter:  1.181
 Conservative safety factor:  2.3042221590088086
@@ -101,268 +73,133 @@ Point J
 Moment:  102.93817499297266 lbf
 Torque:  1411.0154656206842 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.347948877483032
-The Conservative Yield Safety Factor is 1.5000280541020639
-The minimum diameter is 0.9915099999981323
-Kt value:  2.7
-Kts value:  2.2
-Kf value:  2.002454951389379
-Kfs value:  1.7890211298166634
-
 Safety Factors based on input diameter
 Diameter:  1.181
 Conservative safety factor:  2.501355631876299
-Goodman safety factor:  3.897379081987083
+Goodman safety factor:  3.8034338407803623
 
 Point K
 Moment:  240.1890749836029 lbf
 Torque:  1411.0154656206842 in-lb
-
-Calculated Diameter
 Please enter a number between 1 and 4
-The Goodman Safety Factor is 2.102045648346337
-The Conservative Yield Safety Factor is 1.5000455347659738
-The minimum diameter is 0.8414499999988152
-Kt value:  1
-Kts value:  1
-Kf value:  1
-Kfs value:  1
 
 Safety Factors based on input diameter
 Diameter:  1.417
 Conservative safety factor:  7.163817818305921
-Goodman safety factor:  9.838968289982175
+Goodman safety factor:  9.441089856660067
 
 Point L
 Moment:  308.81452497891803 lbf
 Torque:  1411.0154656206842 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.823176363520603
-The Conservative Yield Safety Factor is 1.5000152609641324
-The minimum diameter is 1.1324699999989614
-Kt value:  5.0
-Kts value:  3.0
-Kf value:  3.0203339990306923
-Kfs value:  2.1537440989681316
-
 Safety Factors based on input diameter
 Diameter:  1.417
 Conservative safety factor:  2.9385738868707616
-Goodman safety factor:  3.5283941850379743
+Goodman safety factor:  3.332796358858985
 
 Point M
 Moment:  377.4399749742331 lbf
 Torque:  1411.0154656206842 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.0267387495814067
-The Conservative Yield Safety Factor is 1.5000352409043145
-The minimum diameter is 1.1257299999989172
-Kt value:  2.14
-Kts value:  3.0
-Kf value:  1.6896392497105994
-Kfs value:  2.343332471647953
-
 Safety Factors based on input diameter
 Diameter:  1.417
 Conservative safety factor:  2.931082124594308
-Goodman safety factor:  3.9244671434211194
+Goodman safety factor:  3.7538564347408485
 
 Point N
 Moment:  459.5921239071762 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.5000186205123371
-The Conservative Yield Safety Factor is 2.281459935055371
-The minimum diameter is 0.7558399999992048
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5160660246285267
-Kfs value:  1.394696380648031
-
 Safety Factors based on input diameter
 Diameter:  1.417
 Conservative safety factor:  14.652787253101597
-Goodman safety factor:  9.007387679236214
+Goodman safety factor:  8.079626748274883
 
 Point O
 Moment:  357.46054081669257 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.5000445122236274
-The Conservative Yield Safety Factor is 2.2600582979756765
-The minimum diameter is 0.6919999999994954
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5100205843864112
-Kfs value:  1.3909818308856763
-
 Safety Factors based on input diameter
 Diameter:  1.417
 Conservative safety factor:  18.83929789684491
-Goodman safety factor:  11.580927016160846
+Goodman safety factor:  10.388091533496278
 
 Point P
 Moment:  153.1973746357255 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.500067490934304
-The Conservative Yield Safety Factor is 2.2082613028377702
-The minimum diameter is 0.5571100000001092
-Kt value:  2.7
-Kts value:  2.2
-Kf value:  1.8816067079423862
-Kfs value:  1.708014173118399
-
 Safety Factors based on input diameter
 Diameter:  1.1811
 Conservative safety factor:  19.427006118753866
-Goodman safety factor:  12.177170544824579
+Goodman safety factor:  10.922921978707647
 
 Point Q
 Moment:  607.4722015871383 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.500014286036585
-The Conservative Yield Safety Factor is 2.3282316994056154
-The minimum diameter is 0.9137099999984863
-Kt value:  2.7
-Kts value:  2.2
-Kf value:  1.9855893274010774
-Kfs value:  1.7779101901054088
-
 Safety Factors based on input diameter
 Diameter:  1.575
 Conservative safety factor:  11.300598382365026
-Goodman safety factor:  6.8685902025744765
+Goodman safety factor:  6.161125411709305
 
 Point R
 Moment:  496.4951069238096 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.5000499356040549
-The Conservative Yield Safety Factor is 2.2881381923192015
-The minimum diameter is 0.7766199999991102
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5178989985568672
-Kfs value:  1.3958192196032773
-
 Safety Factors based on input diameter
 Diameter:  1.133
 Conservative safety factor:  6.993162926178248
-Goodman safety factor:  4.402975119502083
+Goodman safety factor:  3.9494686821933684
 
 Point S
 Moment:  450.5058074313452 lbf
 Torque:  0 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.5000211973591138
-The Conservative Yield Safety Factor is 2.2797531866206624
-The minimum diameter is 0.7505599999992288
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5155903267828124
-Kfs value:  1.3944047199544518
-
 Safety Factors based on input diameter
 Diameter:  0.944
 Conservative safety factor:  4.491032300395796
-Goodman safety factor:  2.8833632603015267
+Goodman safety factor:  2.586376844490469
 
 Point T
 Moment:  334.9810442453687 lbf
 Torque:  470.33848854022807 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.6302182554624443
-The Conservative Yield Safety Factor is 1.5000390734948061
-The minimum diameter is 0.845019999998799
-Kt value:  2.14
-Kts value:  3.0
-Kf value:  1.650038529608052
-Kfs value:  2.2785948418111293
-
 Safety Factors based on input diameter
 Diameter:  0.944
 Conservative safety factor:  2.0697374070323122
-Goodman safety factor:  2.233735367283878
+Goodman safety factor:  2.083774312865976
 
 Point U
 Moment:  271.777073633035 lbf
 Torque:  470.33848854022807 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 1.5000356259749352
-The Conservative Yield Safety Factor is 1.5502187143002464
-The minimum diameter is 0.894229999998575
-Kt value:  5.0
-Kts value:  3.0
-Kf value:  3.0203339990306923
-Kfs value:  2.1537440989681316
-
 Safety Factors based on input diameter
 Diameter:  0.944
 Conservative safety factor:  1.823794162332677
-Goodman safety factor:  1.7573550123899546
+Goodman safety factor:  1.6222160894473503
 
 Point V
 Moment:  208.5731030207013 lbf
 Torque:  470.33848854022807 in-lb
-
-Calculated Diameter
 Please enter a number between 1 and 4
-The Goodman Safety Factor is 1.724325946360505
-The Conservative Yield Safety Factor is 1.500009526283467
-The minimum diameter is 0.6307599999997741
-Kt value:  1
-Kts value:  1
-Kf value:  1
-Kfs value:  1
 
 Safety Factors based on input diameter
 Diameter:  0.944
 Conservative safety factor:  5.0284973143559
-Goodman safety factor:  5.6361668254652555
+Goodman safety factor:  5.277868203693516
 
 Point W
 Moment:  82.16516179603387 lbf
 Torque:  470.33848854022807 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.0640722722734424
-The Conservative Yield Safety Factor is 1.5000223780795308
-The minimum diameter is 0.7072999999994257
-Kt value:  2.7
-Kts value:  2.2
-Kf value:  1.9320875561204494
-Kfs value:  1.7422497953843963
-
 Safety Factors based on input diameter
 Diameter:  0.787
 Conservative safety factor:  2.0477026659718356
-Goodman safety factor:  2.803793050538855
+Goodman safety factor:  2.68559911228756
 
 Point X
 Moment:  0 lbf
 Torque:  470.33848854022807 in-lb
-
-Calculated Diameter
-The Goodman Safety Factor is 2.720067071251267
-The Conservative Yield Safety Factor is 1.5000369878223898
-The minimum diameter is 0.7096999999994148
-Kt value:  5.0
-Kts value:  3.0
-Kf value:  3.0203339990306923
-Kfs value:  2.1537440989681316
 
 Safety Factors based on input diameter
 Diameter:  0.787
@@ -373,36 +210,22 @@ Point Y
 Moment:  0 lbf
 Torque:  470.33848854022807 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.7200517060823586
-The Conservative Yield Safety Factor is 1.5000285143836538
-The minimum diameter is 0.6126799999998563
-Kt value:  1.7
-Kts value:  1.5
-Kf value:  1.5014784296975183
-Kfs value:  1.3857035897420698
-
 Safety Factors based on input diameter
-Diameter:  0.719
-Conservative safety factor:  2.4123965800899945
-Goodman safety factor:  4.374479131896522
+Diameter:  0.72
+Conservative safety factor:  2.422374304006822
+Goodman safety factor:  4.392572071265704
 
 Point Z
 Moment:  0 lbf
 Torque:  470.33848854022807 in-lb
 
-Calculated Diameter
-The Goodman Safety Factor is 2.720092825681416
-The Conservative Yield Safety Factor is 1.500051190633134
-The minimum diameter is 0.7191599999993717
-Kt value:  2.14
-Kts value:  3.0
-Kf value:  1.6273935532712223
-Kfs value:  2.241002729819729
-
 Safety Factors based on input diameter
-Diameter:  0.719
-Conservative safety factor:  1.499145607001728
-Goodman safety factor:  2.7184507006964664
+Diameter:  0.72
+Conservative safety factor:  1.505189624617653
+Goodman safety factor:  2.7294105193066778
 
 Process finished with exit code 0
+
+
+The input shaft key length must be 0.6638473124848586 inches long
+The Output shaft key length must be 0.49823992430108904 inches long

@@ -9,7 +9,7 @@ import math
 #S_T = Steady Torque
 #A_M = Alternating Bending Moment
 def findDiameter(Stress_Concentrator, S_T, A_M ):
-    print("\nCalculated Diameter")
+    #print("\nCalculated Diameter")
     #this section of code request all the necessary data to perform the calculations
     #print("Please enter all requested values in English/Imperial Units")
     FullyReversedBendingMoment = A_M
@@ -115,7 +115,7 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
         #set other k values for finding the endurance limit. These are based off the problem statement.
         kc = 1
         kd = 1
-        ke = 1
+        ke = .897
         kf = 1
         #calculate the Endurance Limit in Ksi using equation 6-17
         EnduranceLimit = EnduranceStrengthPrime * ka * kb * kc * kd * ke * kf
@@ -175,13 +175,13 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
         if GoodmanSafetyFactorMet and ConservativeSafetyFactorMet:
             SafetyFactorMet = True
     #print the safety factors and the diameter
-    print("The Goodman Safety Factor is " + str(SafetyFactorGoodman))
-    print("The Conservative Yield Safety Factor is " + str(SafetyFactorConservative))
-    print("The minimum diameter is " + str(RelevantShaftDiameter))
-    print("Kt value: ", Kt)
-    print("Kts value: ", Kts)
-    print("Kf value: ", Kf)
-    print("Kfs value: ", Kfs)
+    # print("The Goodman Safety Factor is " + str(SafetyFactorGoodman))
+    # print("The Conservative Yield Safety Factor is " + str(SafetyFactorConservative))
+    # print("The minimum diameter is " + str(RelevantShaftDiameter))
+    # print("Kt value: ", Kt)
+    # print("Kts value: ", Kts)
+    # print("Kf value: ", Kf)
+    # print("Kfs value: ", Kfs)
     return RelevantShaftDiameter
 
 def SafetyFactors(Stress_Concentrator, S_T, A_M, RelevantShaftDiameter ):
@@ -246,7 +246,7 @@ def SafetyFactors(Stress_Concentrator, S_T, A_M, RelevantShaftDiameter ):
     #set other k values for finding the endurance limit. These are based off the problem statement.
     kc = 1
     kd = 1
-    ke = 1
+    ke = .897
     kf = 1
     #calculate the Endurance Limit in Ksi using equation 6-17
     EnduranceLimit = EnduranceStrengthPrime * ka * kb * kc * kd * ke * kf
