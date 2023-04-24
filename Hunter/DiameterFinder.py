@@ -1,7 +1,7 @@
-# Scott Michelsen
+
 #this file finds the minimum diameter using a sefety factor of 1.5 and checking the conservative first cycle yield and Goodman Criteria
 #The user inputs the fully reversed bending moment, the steady torque, Kf, Kfs,
-# the stress concentration factor, and the relevant diameter. the shaft was hot-rolled, than machined to size
+# the stress concentration factor, and the relevant diameter. the shaft was hot-rolled, then machined to size
 
 import math
 
@@ -11,44 +11,9 @@ import math
 def findDiameter(Stress_Concentrator, S_T, A_M ):
     #print("\nCalculated Diameter")
     #this section of code request all the necessary data to perform the calculations
-    #print("Please enter all requested values in English/Imperial Units")
     FullyReversedBendingMoment = A_M
     SteadyTorque = S_T
-    RelevantShaftDiameter = .11
-
-    #this section of code allows the user to pick what the stress concentrator is
-    # and then assigns values to Kt, Kts, and R for the Kf and Kfs calculations
-    loopvar = True
-    while loopvar == True:
-
-        if Stress_Concentrator == 0:
-            Kt = 1
-            Kts = 1
-            StressConcentrationRadius = 0
-            loopvar = False
-        if Stress_Concentrator ==1:
-            Kt=2.7
-            Kts=2.2
-            StressConcentrationRadius = RelevantShaftDiameter * .02
-            loopvar = False
-        elif Stress_Concentrator ==2:
-            Kt = 1.7
-            Kts = 1.5
-            StressConcentrationRadius = RelevantShaftDiameter * .1
-            loopvar = False
-        elif Stress_Concentrator ==3:
-            Kt = 2.14
-            Kts = 3.0
-            StressConcentrationRadius = RelevantShaftDiameter * .02
-            loopvar = False
-        elif Stress_Concentrator ==4:
-            Kt = 5.0
-            Kts = 3.0
-            StressConcentrationRadius = 0.01
-            loopvar = False
-        else:
-            print("Please enter a number between 1 and 4")
-
+    RelevantShaftDiameter = .11  ## starting diameter for iterations
 
     #variable for loop condition
     SafetyFactorMet = False
@@ -58,8 +23,8 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
     SafetyFactorConservative = 0
     #while loop to iterate until the diameter meets both safety factor criteria
     while not SafetyFactorMet:
-        #the stress concentration radius must be calculated for each iteration, which this sort does. menuSelect is defined by user input before the loop
         #this ensures that the stress concentration factors are updated each iteration
+        # kt and kts values come from table 7-1
         if Stress_Concentrator == 0:
             Kt = 1
             Kts = 1
@@ -85,8 +50,7 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
             Kts = 3.0
             StressConcentrationRadius = 0.01
             loopvar = False
-        else:
-            print("Please enter a number between 1 and 4")
+
 
         # Material properties given in kpsi from table A-20 for HR-1030 steel
         UltimateTensileStrength = 68
@@ -115,7 +79,7 @@ def findDiameter(Stress_Concentrator, S_T, A_M ):
         #set other k values for finding the endurance limit. These are based off the problem statement.
         kc = 1
         kd = 1
-        ke = .897
+        ke = .897                   ## 90% reliability
         kf = 1
         #calculate the Endurance Limit in Ksi using equation 6-17
         EnduranceLimit = EnduranceStrengthPrime * ka * kb * kc * kd * ke * kf
