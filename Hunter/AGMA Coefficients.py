@@ -90,7 +90,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     print(f"S_H_G = {S_H_G}, where S_c = {S_c}, Z_N_G = {Z_N_G}, C_H_G = {C_H_G}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
 
     S_H_P = contact_safety_factor_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
-    print(f"S_H_G = {S_H_G}, where S_c = {S_c}, Z_N_G = {Z_N_P}, C_H_G = {C_H_P}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
+    print(f"S_H_P = {S_H_P}, where S_c = {S_c}, Z_N_P = {Z_N_P}, C_H_P = {C_H_P}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
 
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
     # SCOTT, I replaced Y_N with Y_N_P and then added Y_N_G after that.
@@ -187,7 +187,6 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     # P_n is normal diametrical pitch
 
     a = addendum(P_n)   # calling the addendum function
-
 
     r_P = d_P / 2     # transverse pitch radius of pinion
 
