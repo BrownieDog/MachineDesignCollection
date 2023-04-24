@@ -1,5 +1,6 @@
 import math
 
+# comprehensive list of all the AGMA coefficients
 def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, N_G, N_P, d_P, d_G, P_n, S):
     # W_t is tangential transmitted load (lbf)
     # Q_v is quality number of gears
@@ -16,7 +17,6 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     # d_G is gear pitch diameter
     # P_n is normal diametrical pitch
     # S is distance between center of bearings
-
 
     K_o = overload_factor()                         # overload factor
     print(f"K_o = {K_o}")
@@ -39,7 +39,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     J_G = bending_geometry_factor(p_x, F, N_G, N_P)      # J is geometry factor for bending stress including root fillet stress concentration factor - Fig 14-6 for the gear
     print(f"J_G = {J_G}, where p_x = {p_x}, F = {F}, and N_G = {N_G}")
 
-    S_t = 45000     # guess                         # bending strength (lbf/in^2) - Table 14-3 or 14-4 and Fig 14-2, 14-3, and 14-4
+    S_t = 45000     # guess using Table 14-3 flame or induction hardened            # bending strength (lbf/in^2)
     print(f"S_t = {S_t}, which is a guess")
 
     Y_N_P = bending_stress_cycle_factor(N_cycle_P)  # Y_N is bending stress cycle life factor for the pinion
@@ -63,7 +63,7 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     I = contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n)  # I is contact geometry factor for pitting resistance
     print(f"I = {I}, where pt_angle = {pt_angle}, N_G = {N_G}, N_P = {N_P}, d_G = {d_G}, d_P = {d_P}, P_n = {P_n}")
 
-    S_c = 170000    # guess                         # allowable contact stress (lbf/in^2) - Table 14-6, 14-7, and Fig 14-5
+    S_c = 170000    # guess using Table 14-6 for flame or induction hardened  # allowable contact stress (lbf/in^2)
     print(f"S_c = {S_c}, which is a guess")
 
     Z_N_P = contact_stress_cycle_factor(N_cycle_P)            # Z_N is wear/contact stress cycle life factor
@@ -190,6 +190,7 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
 
 
     r_P = d_P / 2     # transverse pitch radius of pinion
+
     # equation 14-26
     r_bP = r_P * math.cos(math.radians(pt_angle))   # base-circle radii for pinion
 
@@ -223,9 +224,9 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     m_G = speed_ratio(N_G, N_P, d_G, d_P)
 
     # equation 14-23
-    I_ext = (math.cos(math.radians(pt_angle)) * math.sin(math.radians(pt_angle))) / (2 * m_N) * (m_G / (m_G + 1))    # external gear
+    I_ext = (math.cos(math.radians(pt_angle)) * math.sin(math.radians(pt_angle))) / (2 * m_N) * (m_G / (m_G + 1))    # geometry factor for external gear
 
-    return I_ext                    # external gear
+    return I_ext
 
 def bending_geometry_factor(p_x, F, N_teeth_1, N_teeth_2):
     # p_x is axial pitch
@@ -392,14 +393,17 @@ def reliability_factor():
     return K_R
 
 def temperature_factor():
+    # project instructions state this is 1
     K_T = 1     # for temp up to 250 F                  # temperature factor
     return K_T
 
 def size_factor():
+    # project instructions state this is 1
     K_s = 1                                             # size factor
     return K_s
 
 def surface_condition_factor():
+    # project instructions state this is 1
     C_f = 1                                             # surface condition factor
     return C_f
 
@@ -407,13 +411,18 @@ def rim_thickness_factor():
     t_R = None          # look at fig
     h_t = None          # look at fig
     #m_B = t_R / h_t     # backup ratio
+
+    # equation 14-39
     m_B = 1.2           # assuming this
+
+    # equation 14-40
     if m_B < 1.2:
         K_B = 1.6 * math.log((2.242 / m_B), math.e)
     else:
         K_B = 1
     return K_B
 
+# equation 14-41
 def bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K_m, K_B, J):
     # S_t is bending strength (lbf/in^2)
     # Y_N is bending stress cycle life factor --- this will change with pinion and gear
@@ -434,9 +443,10 @@ def bending_safety_factor_AGMA(S_t, Y_N, K_T, K_R, W_t, K_o, K_v, K_s, P_d, F, K
 
     fully_corrected_bending_strength = (S_t * Y_N) / (K_T * K_R)
 
-    S_F = fully_corrected_bending_strength / calc_bend_AGMA
+    S_F = fully_corrected_bending_strength / calc_bend_AGMA     # bending safety factor
     return S_F
 
+# equation 14-42
 def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I):
     # S_c is allowable contact stress (lbf/in^2)
     # Z_N is wear/ contact stress cycle life factor --- this will change with pinion and gear
@@ -457,13 +467,14 @@ def contact_safety_factor_AGMA(S_c, Z_N, C_H, K_T, K_R, C_p, W_t, K_o, K_v, K_s,
     calc_cont_AGMA = calc_contact_stress_AGMA(C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
 
     fully_corrected_contact_strength = (S_c * Z_N * C_H) / (K_T * K_R)
-    S_H = fully_corrected_contact_strength / calc_cont_AGMA
+
+    # must be greater than 1.2
+    S_H = fully_corrected_contact_strength / calc_cont_AGMA     # contact safety factor
 
     return S_H
-    # must be greater than 1.2
 
 
-#end of AGMA Equations and start of gear size Equations
+# end of AGMA Equations and start of gear size Equations
 def gear_ratio(rpm_in, rpm_out):
     # rpm_in is the number of rpms of the shaft in or number of teeth in and out...
     # rpm_out is the number of rpms of the shaft out
