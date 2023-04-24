@@ -761,5 +761,6 @@ def main():
     print(S_H_G)
     print(S_F_P)
     print(S_H_P)
+    print(S_H_G)
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
