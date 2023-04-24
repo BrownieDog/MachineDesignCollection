@@ -225,3 +225,7 @@ Conservative safety factor:  1.505189624617653
 Goodman safety factor:  2.7294105193066778
 
 Process finished with exit code 0
+
+
+The input shaft key length must be 0.6638473124848586 inches long
+The Output shaft key length must be 0.49823992430108904 inches long
