@@ -6,33 +6,34 @@ sin = math.sin
 cos = math.cos
 tan = math.tan
 
-hp = 150
-Ohi = 6700
-m = 3
-Oho = m*Ohi
-k = 1 ## full depth teeth
-psi = math.radians(30) ## helix angle
-phin = math.radians(20) ## Normal pressure angle
-phit = (math.atan(tan(phin)/cos(psi)))
+hp = 150                                    ## Input power (HP)
+Ohi = 6700                                  ## input rotation speed (RPM)
+m = 3                                       ## gear ration
+Oho = m*Ohi                                 ## output rotation speed
+k = 1                                       ## full depth teeth
+psi = math.radians(30)                      ## helix angle
+phin = math.radians(20)                     ## Normal pressure angle
+phit = (math.atan(tan(phin)/cos(psi)))      ## equation 13-19 Transverse pressure angle
 
-face = 1.5
+face = 1.5                                  ## gear face width
 
-Hlb = 550*hp*60*12/(2*math.pi)
-Ti = Hlb/Ohi
-To = Hlb/Oho
+Hlb = 550*hp*60*12/(2*math.pi)              ## input power in lbf
+Ti = Hlb/Ohi                                ## input torque
+To = Hlb/Oho                                ## output torque
 
-dg = 5.629165124598851
-dp = 1.8763883748662835
-V = math.pi*dp*Oho/12
+dg = 5.629165124598851                      ## gear diameter
+dp = 1.8763883748662835                     ## pinion diameter
+V = math.pi*dp*Oho/12                       ## EQ. 13-34 Pitch line velocity
 
 ## Gear forces
 
-Wt = 33000*hp/V
-Wr = Wt*tan(phit)
-Wa = Wt*tan(psi)
-W = Wt/(cos(phin)*cos(psi))
+Wt = 33000*hp/V                             ## eq. 13-35 Transverse load on gear
+Wr = Wt*tan(phit)                           ## eq. 13-40 Radial load on gear
+Wa = Wt*tan(psi)                            ## eq. 13-40 Radial load on gear
+W = Wt/(cos(phin)*cos(psi))                 ## eq. 13-40 overall load on gear
 
-## Reaction forces at bearing
+## Reaction forces at bearings
+## forces found using sum of moments and sum of forces
 
 Fbx = Wa
 Fby = (1.875*Wr + (dg/2) * Wa)/3.75
@@ -68,7 +69,7 @@ print("Fdy: ", Fdy)
 print("Fdz: ", Fdz)
 
 
-
+## Moment analysis at each point
 def InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg):
     A = 3.375
     E = 5.25
@@ -98,6 +99,8 @@ def OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp):
             M = math.sqrt(My ** 2 + Mz ** 2)
     else: M = 0
     return M
+
+## Torque analysis at each point
 def InputPointTorque(x,Hlb,Ohi):
     if (x > 1) and (x < 5.25):
         T = Hlb/Ohi
@@ -112,7 +115,7 @@ def OutputPointTorque(x,Hlb,Oho):
         T = 0
     return T
 
-## input shaft points
+## input shaft point distance from left side
 G = 2
 H = 2.75
 I = 3
@@ -124,7 +127,7 @@ N = L + face
 O = N + .25
 P = 6.75
 
-## output shaft points
+## output shaft point distance from left side
 Q = 1.25
 S = 1.25+((3-face)/2)
 R = S-.25
@@ -136,9 +139,13 @@ X = W + .75
 Y = X + .25
 Z = X + 1
 
+## mean bending moment is 0 because it is a rotating circular shaft
 s_m = 0
+## alternating torque is 0 because there is a constant speed and constant torque load applied
 a_t = 0
 
+## point analysis at each point on input shaft
+## d at each point is diameter based on bearing bore and the correlating shoulder
 x = G
 print("\nPoint G")
 scf = 3
@@ -248,6 +255,9 @@ print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
 d = 1.1811
 SafetyFactors(scf, s_t, a_m, d)
+
+
+## point analysis at each point on the output shaft
 
 x = Q
 print("\nPoint Q")
@@ -360,18 +370,7 @@ d = 0.72
 SafetyFactors(scf, s_t, a_m, d)
 
 
-# xi = J
-# S_F_goodman = 0
-# S_F_conservative = 0
-# d = .2
-# while S_F_goodman < 1.5 or S_F_conservative < 1.5:
-#     a_m = InputPointMoments(xi,Fay, Wr, Wa, Faz, Wt, dg)
-#     s_t = InputPointTorque(xi,Hlb,Ohi)
-#     print("\ns_t: ", s_t)
-#     print("a_m", a_m)
-#     print("diameter: ", d)
-#     S_F_goodman, S_F_conservative = main(d,a_m, a_t, s_m, s_t, geometry = "round")
-#     d += .1
+
 
 
 
