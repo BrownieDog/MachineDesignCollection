@@ -689,7 +689,7 @@ def main():
     p_x = ((math.pi/ P_d) / math.tan(math.radians(helixAngle)))
     normalCircularPitch = math.pi / normalDiametralPitch
     Q_v = 11
-    F = 1
+    F = 1.5
     S = 3.375
     ### OLD ###
     # W_t is tangential transmitted load (lbf)

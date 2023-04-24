@@ -147,6 +147,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.051
 SafetyFactors(scf, s_t, a_m, d)
 
 x = H
@@ -157,6 +158,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.051
 SafetyFactors(scf, s_t, a_m, d)
 
 x = I
@@ -167,6 +169,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.181
 SafetyFactors(scf, s_t, a_m, d)
 
 x = J
@@ -177,16 +180,18 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.181
 SafetyFactors(scf, s_t, a_m, d)
 
 x = K
 print("\nPoint K")
-scf = 2
+scf =0
 a_m = InputPointMoments(x, Fay, Wr, Wa, Faz, Wt, dg)
 s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.417
 SafetyFactors(scf, s_t, a_m, d)
 
 x = L
@@ -197,6 +202,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.417
 SafetyFactors(scf, s_t, a_m, d)
 
 x = M
@@ -207,6 +213,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.417
 SafetyFactors(scf, s_t, a_m, d)
 
 x = N
@@ -217,6 +224,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.417
 SafetyFactors(scf, s_t, a_m, d)
 
 x = O
@@ -227,6 +235,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.417
 SafetyFactors(scf, s_t, a_m, d)
 
 x = P
@@ -237,6 +246,7 @@ s_t = InputPointTorque(x, Hlb, Ohi)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.1811
 SafetyFactors(scf, s_t, a_m, d)
 
 x = Q
@@ -247,6 +257,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.575
 SafetyFactors(scf, s_t, a_m, d)
 
 x = R
@@ -257,6 +268,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 1.133
 SafetyFactors(scf, s_t, a_m, d)
 
 x = S
@@ -267,6 +279,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.944
 SafetyFactors(scf, s_t, a_m, d)
 
 x = T
@@ -277,6 +290,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.944
 SafetyFactors(scf, s_t, a_m, d)
 
 x = U
@@ -287,16 +301,18 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.944
 SafetyFactors(scf, s_t, a_m, d)
 
 x = V
 print("\nPoint V")
-scf = 2
+scf = 0
 a_m = OutputPointMoments(x, Fdy, Wr, Wa, Fdz, Wt, dp)
 s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.944
 SafetyFactors(scf, s_t, a_m, d)
 
 x = W
@@ -307,6 +323,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.787
 SafetyFactors(scf, s_t, a_m, d)
 
 x = X
@@ -317,6 +334,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.787
 SafetyFactors(scf, s_t, a_m, d)
 
 x = Y
@@ -327,6 +345,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.72
 SafetyFactors(scf, s_t, a_m, d)
 
 x = Z
@@ -337,6 +356,7 @@ s_t = OutputPointTorque(x, Hlb, Oho)
 print("Moment: ", a_m, "lbf")
 print("Torque: ", s_t, "in-lb")
 findDiameter(scf, s_t, a_m)
+d = 0.72
 SafetyFactors(scf, s_t, a_m, d)
 
 
