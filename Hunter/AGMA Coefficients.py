@@ -219,6 +219,7 @@ def contact_geometry_factor(pt_angle, N_G, N_P, d_G, d_P, P_n):
     # equation 14-21
     m_N = p_N / (0.95 * Z)          # load sharing ratio
 
+    # equation 14-22
     m_G = speed_ratio(N_G, N_P, d_G, d_P)
 
     # equation 14-23
@@ -302,15 +303,19 @@ def load_distribution_factor(d_P, F, S):
     # d_P is pinion pitch diameter
     # F is face width of the narrowest member
     # S is distance between center of bearings
+
+    # equation 14-31
     C_mc = 1            # uncrowned
 
+    # equation 14-32
     if F <= 1:          # in
         C_pf = (F / (10 * d_P)) - 0.025
     elif 1 < F <= 17:   # in
         C_pf = (F / (10 * d_P)) - 0.0375 + 0.0125 * F
     else:
-        print(":(")     # I am sad
+        print(f"face width (F) is out of range")
 
+    # equation 14-33
     S_1 = 0             # centered
     # since our straddle mounted pinion configuration is centered, S_1/S = 0, which is < 0.175
     if S_1 / S < 0.175:
@@ -318,23 +323,29 @@ def load_distribution_factor(d_P, F, S):
     elif S_1 / S >= 0.175:
         C_pm = 1.1
 
-    # commercial, enclosed units
+    # Table 14-9 for commercial, enclosed units
     A_m = 0.127
     B_m = 0.0158
     C_m = -0.930 * 10 ** -4
+
+    # equation 14-34
     C_ma = A_m + B_m * F + C_m * F ** 2
 
-    C_e = 1     # not adjusted at assembly
+    # equation 14-35, because not adjusted at assembly
+    C_e = 1
 
+    # equation 14-30
     K_m = 1 + C_mc * (C_pf * C_pm + C_ma * C_e)     # load distribution factor
     return K_m
 
+# the gear undergoes fewer cycles and is not hardened as much as the pinion
 def gear_hardness_ratio_factor(N_G, N_P, d_G, d_P):
     # N_G is number of teeth in the gear
     # N_P is number of teeth in the pinion
     # d_G is gear pitch diameter
     # d_P is pinion pitch diameter
 
+    # equation 14-22
     m_G = speed_ratio(N_G, N_P, d_G, d_P)
 
     H_BP = 1 #should be changed
@@ -348,27 +359,33 @@ def gear_hardness_ratio_factor(N_G, N_P, d_G, d_P):
     elif BH > 1.7:
         A_H = 0.00698
 
+    # equation 14-36 - use the gear is through hardened
     C_H = 1.0 + A_H * (m_G - 1.0)   # gear hardness factor
     # if surface hardened, it is something else
     return C_H
 
+# C_H only applies to the gear, so C_H = 1
 def pinion_hardness_ratio_factor():
     C_H = 1     # pinion hardness factor
     return C_H
 
-#we need to adjust for whether its pinion or gear here and in J
+# we need to adjust for whether its pinion or gear here and in J
+# Fig. 14-14
 def bending_stress_cycle_factor(N):
     # N is number of cycles
 
     Y_N = 1.6831 * (N ** -0.0323)      # Fig 14-14      # bending cycle factor
     return Y_N
 
+# Fig. 14-15
 def contact_stress_cycle_factor(N):
     # N is number of cycles
 
     Z_N = 2.466 * (N ** -0.056)  # Fig 14-15             # contact cycle factor
     return Z_N
 
+# equation 14-38 or Table 14-10
+# we are using equation 14-38, because we used the equation to match the decision for the elastic coefficient
 def reliability_factor():
     R = 0.90        # reliability
     K_R = 0.658 - 0.0759 * math.log(1 - R, math.e)      # reliability factor
