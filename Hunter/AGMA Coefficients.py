@@ -92,6 +92,18 @@ def AGMA_coefficients(W_t, Q_v, V, P_d, N_cycle_P, N_cycle_G, F, p_x, pt_angle, 
     S_H_P = contact_safety_factor_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, C_p, W_t, K_o, K_v, K_s, K_m, d_P, F, C_f, I)
     print(f"S_H_P = {S_H_P}, where S_c = {S_c}, Z_N_P = {Z_N_P}, C_H_P = {C_H_P}, K_T = {K_T}, K_R = {K_R}, C_p = {C_p}, W_t = {W_t}, K_o = {K_o}, K_v = {K_v}, K_s = {K_s}, K_m = {K_m}, d_P = {d_P}, F = {F}, C_f = {C_f}, and I = {I}")
 
+    pinion_allow_bend_AGMA = calc_allowable_bending_stress_AGMA(S_t, S_F_P, Y_N_P, K_T, K_R)
+    print(f"allowable AGMA bending stress for pinion: {pinion_allow_bend_AGMA}")
+
+    gear_allow_bend_AGMA = calc_allowable_bending_stress_AGMA(S_t, S_F_G, Y_N_G, K_T, K_R)
+    print(f"allowable AGMA bending stress for gear: {gear_allow_bend_AGMA}")
+
+    pinion_allow_cont_AGMA = calc_allowable_contact_stress_AGMA(S_c, Z_N_P, C_H_P, K_T, K_R, S_H_P)
+    print(f"allowable AGMA contact stress for pinion: {pinion_allow_cont_AGMA}")
+
+    gear_allow_cont_AGMA = calc_allowable_contact_stress_AGMA(S_c, Z_N_G, C_H_G, K_T, K_R, S_H_G)
+    print(f"allowable AGMA contact stress for gear: {gear_allow_cont_AGMA}")
+
     return K_o, K_v, K_s, K_m, K_B, S_t, Y_N_P, Y_N_G, K_T, K_R, C_p, C_f, I, S_c, Z_N_P, Z_N_G, C_H_G, C_H_P, S_F_G, S_F_P, S_H_G, S_H_P
     # SCOTT, I replaced Y_N with Y_N_P and then added Y_N_G after that.
     # The new Y_N_P and Y_N_G take into account that the gear and pinion have different number of cycles.
@@ -761,5 +773,11 @@ def main():
     print(S_F_P)
     print(S_H_P)
     print(S_H_G)
+
+    print(f"allowable AGMA bending stress Pinion")
+    print(f"allowable AGMA bending stress Gear")
+    print(f"allowable AGMA contact stress Pinion")
+    print(f"allowable AGMA contact stress Gear")
+
 #def AGMA_coefficients(W_t, Q_v, V, P_d, d_P, N, F, p_x, pt_angle, N_G, N_P, d_G, P_n, S):
 main()
